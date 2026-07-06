@@ -24,35 +24,30 @@
             <div class="template-sub">5 anúncios · 2 categorias</div>
             <span class="template-badge">Google</span>
         </div>
-
         <div class="template-card" onclick="selecionarTemplate('google', '1000')">
             <div class="check-mark">✓</div>
             <div class="template-title">Google 1000€</div>
             <div class="template-sub">8 anúncios · 3 categorias</div>
             <span class="template-badge">Google</span>
         </div>
-
         <div class="template-card" onclick="selecionarTemplate('google', '1500')">
             <div class="check-mark">✓</div>
             <div class="template-title">Google 1500€+</div>
             <div class="template-sub">12 anúncios · 4 categorias</div>
             <span class="template-badge">Google</span>
         </div>
-
         <div class="template-card" onclick="selecionarTemplate('meta', '500')">
             <div class="check-mark">✓</div>
             <div class="template-title">Meta 500€</div>
             <div class="template-sub">5 anúncios · 2 categorias</div>
             <span class="template-badge">Meta</span>
         </div>
-
         <div class="template-card" onclick="selecionarTemplate('meta', '1000')">
             <div class="check-mark">✓</div>
             <div class="template-title">Meta 1000€</div>
             <div class="template-sub">8 anúncios · 3 categorias</div>
             <span class="template-badge">Meta</span>
         </div>
-
         <div class="template-card" onclick="selecionarTemplate('meta', '1500')">
             <div class="check-mark">✓</div>
             <div class="template-title">Meta 1500€+</div>
@@ -74,22 +69,17 @@
             </div>
         </div>
 
-        <form id="mainForm" action="https://formsubmit.co/valesdigitais@leadzai.com" method="POST">
-
-            <input type="hidden" name="_subject" id="formSubject" value="Welcome - NIF: ">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="https://formsubmit.co/thanks">
+        <form id="mainForm" onsubmit="return false;">
 
             <div class="form-group nif-highlight">
                 <label>NIF (Numero de Identificacao Fiscal) <span class="required">*</span></label>
-                <input type="text" id="nif" name="nif" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" required>
+                <input type="text" id="nif" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" required>
                 <div class="error-msg" id="err-nif">Digite 9 números.</div>
             </div>
 
             <div class="form-group" id="campoTipo" style="display:none;">
                 <label>Tipo de campanha <span class="required">*</span></label>
-                <select id="tipo" name="tipo">
+                <select id="tipo">
                     <option value="">Selecione...</option>
                     <option value="Trafego">Tráfego</option>
                     <option value="Geracao de Leads">Geração de Leads</option>
@@ -99,65 +89,65 @@
 
             <div class="form-group">
                 <label>Nome comercial <span class="required">*</span></label>
-                <input type="text" id="nome" name="nome" required>
+                <input type="text" id="nome" required>
                 <div class="error-msg" id="err-nome">Preencha o nome comercial.</div>
             </div>
 
             <div class="form-group">
                 <label>Link do website/redes <span class="required">*</span></label>
-                <input type="url" id="website" name="website" placeholder="https://" required>
+                <input type="url" id="website" placeholder="https://" required>
                 <div class="error-msg" id="err-website">Preencha o link do website/redes.</div>
             </div>
 
             <div class="form-group" id="campo-email" style="display:none;">
                 <label>E-mail administrador/owner da pagina <span class="required">*</span></label>
-                <input type="email" id="email" name="email_admin" placeholder="admin@empresa.pt" required>
+                <input type="email" id="email" placeholder="admin@empresa.pt" required>
                 <div class="error-msg" id="err-email">Preencha o e-mail administrador.</div>
             </div>
 
             <div class="form-group">
                 <label>Numero de contacto <span class="optional">(opcional)</span></label>
-                <input type="text" id="contacto" name="contacto" placeholder="912345678">
+                <input type="text" id="contacto" placeholder="912345678">
             </div>
 
             <div class="form-group">
                 <label>Duracao da campanha (max. 1 mes) <span class="required">*</span></label>
-                <input type="text" id="duracao" name="duracao" placeholder="Ex: 1 mes" required>
+                <input type="text" id="duracao" placeholder="Ex: 1 mes" required>
                 <div class="error-msg" id="err-duracao">Preencha a duração.</div>
             </div>
 
             <div class="form-group">
                 <label>Segmentacao geografica <span class="required">*</span></label>
-                <input type="text" id="segmentacao" name="segmentacao" placeholder="Ex: Portugal" required>
+                <input type="text" id="segmentacao" placeholder="Ex: Portugal" required>
                 <div class="error-msg" id="err-segmentacao">Preencha a segmentação.</div>
             </div>
 
             <div class="form-group">
                 <label>Publico-alvo (idade, sexo, interesses) <span class="required">*</span></label>
-                <textarea id="publico" name="publico" rows="3" placeholder="Ex: 25-45 anos, ambos os sexos, interessados em tecnologia" required></textarea>
+                <textarea id="publico" rows="3" placeholder="Ex: 25-45 anos, ambos os sexos, interessados em tecnologia" required></textarea>
                 <div class="error-msg" id="err-publico">Preencha o público-alvo.</div>
             </div>
 
             <div id="categorias-container">
                 <div class="form-group categoria-group" data-categoria="1">
                     <label>Categoria 1 <span class="required">*</span> <span class="category-label">(produto/servico a destacar)</span></label>
-                    <textarea id="categoria1" name="categoria1" rows="2" placeholder="Ex: Serviço de consultoria"></textarea>
+                    <textarea id="categoria1" rows="2" placeholder="Ex: Serviço de consultoria"></textarea>
                     <div class="error-msg" id="err-categoria1">Preencha pelo menos uma categoria.</div>
                 </div>
 
                 <div class="form-group categoria-group" data-categoria="2" style="display:none;">
                     <label>Categoria 2 <span class="category-label">(produto/servico a destacar)</span></label>
-                    <textarea id="categoria2" name="categoria2" rows="2" placeholder="Ex: Formação empresarial"></textarea>
+                    <textarea id="categoria2" rows="2" placeholder="Ex: Formação empresarial"></textarea>
                 </div>
 
                 <div class="form-group categoria-group" data-categoria="3" style="display:none;">
                     <label>Categoria 3 <span class="category-label">(produto/servico a destacar)</span></label>
-                    <textarea id="categoria3" name="categoria3" rows="2" placeholder="Ex: Marketing digital"></textarea>
+                    <textarea id="categoria3" rows="2" placeholder="Ex: Marketing digital"></textarea>
                 </div>
 
                 <div class="form-group categoria-group" data-categoria="4" style="display:none;">
                     <label>Categoria 4 <span class="category-label">(produto/servico a destacar)</span></label>
-                    <textarea id="categoria4" name="categoria4" rows="2" placeholder="Ex: Design gráfico"></textarea>
+                    <textarea id="categoria4" rows="2" placeholder="Ex: Design gráfico"></textarea>
                 </div>
             </div>
 
@@ -170,9 +160,9 @@
             </div>
 
             <div class="submit-row">
-                <button type="submit" class="btn-send" id="sendBtn">Enviar por Email</button>
+                <button type="button" class="btn-send" id="sendBtn" onclick="enviarEmail()">Enviar por Email</button>
                 <button type="reset" class="btn-reset" onclick="limparCampos()">Limpar tudo</button>
-                <span class="toast-message" id="toastMsg">Enviado!</span>
+                <span class="toast-message" id="toastMsg">Email aberto!</span>
             </div>
         </form>
     </div>
@@ -192,6 +182,7 @@
         };
 
         var templateAtual = { plataforma: null, valor: null };
+        var DESTINATARIO = 'valesdigitais@leadzai.com';
 
         function selecionarTemplate(plataforma, valor) {
             templateAtual.plataforma = plataforma;
@@ -280,12 +271,11 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        document.getElementById('mainForm').addEventListener('submit', function(e) {
+        function enviarEmail() {
             var plataforma = templateAtual.plataforma;
             var valor = templateAtual.valor;
 
             if (!plataforma || !valor) {
-                e.preventDefault();
                 alert('Selecione um template primeiro.');
                 return;
             }
@@ -315,7 +305,6 @@
             });
 
             if (!isValid) {
-                e.preventDefault();
                 alert('Por favor, preencha todos os campos obrigatorios.');
                 var firstError = document.querySelector('.error');
                 if (firstError) {
@@ -324,23 +313,91 @@
                 return;
             }
 
-            var nifInput = document.getElementById('nif');
-            var subjectInput = document.getElementById('formSubject');
-            if (nifInput && subjectInput) {
-                var nomeTemplate = info.nome;
-                var nif = nifInput.value.trim();
-                subjectInput.value = 'Welcome ' + nomeTemplate + ' - NIF: ' + nif;
+            var dados = {};
+            campos.forEach(function(campo) {
+                var input = document.getElementById(campo);
+                dados[campo] = input ? input.value.trim() : '';
+            });
+
+            var contactoInput = document.getElementById('contacto');
+            dados.contacto = contactoInput ? contactoInput.value.trim() : '';
+
+            var categorias = [];
+            var grupos = document.querySelectorAll('.categoria-group');
+            grupos.forEach(function(group) {
+                if (group.style.display !== 'none') {
+                    var textarea = group.querySelector('textarea');
+                    if (textarea) {
+                        var value = textarea.value.trim();
+                        if (value) {
+                            categorias.push(value);
+                        }
+                    }
+                }
+            });
+
+            var linha = '────────────────────────────────────────────';
+            var linha2 = '════════════════════════════════════════════';
+
+            var corpo = '';
+            corpo += 'WELCOME ' + info.nome.toUpperCase() + '\n';
+            corpo += linha2 + '\n\n';
+
+            corpo += 'NIF                 │ ' + dados.nif + '\n';
+
+            if (info.temTipo) {
+                corpo += 'Tipo de campanha    │ ' + dados.tipo + '\n';
             }
 
-            var btn = document.getElementById('sendBtn');
-            btn.innerHTML = '<span class="loading-spinner"></span> A enviar...';
-            btn.disabled = true;
+            corpo += 'Nome comercial      │ ' + dados.nome + '\n';
+            corpo += 'Website/redes       │ ' + dados.website + '\n';
 
+            if (info.temEmail) {
+                corpo += 'Email Admin         │ ' + dados.email + '\n';
+            }
+
+            if (dados.contacto) {
+                corpo += 'Contacto            │ ' + dados.contacto + '\n';
+            }
+
+            corpo += linha + '\n';
+            corpo += 'Duracao             │ ' + dados.duracao + '\n';
+            corpo += 'Segmentacao         │ ' + dados.segmentacao + '\n';
+            corpo += 'Publico-alvo        │ ' + dados.publico + '\n';
+
+            if (categorias.length > 0) {
+                for (var j = 0; j < categorias.length; j++) {
+                    var catNum = j + 1;
+                    var label = 'Categoria ' + catNum;
+                    var spaces = ' '.repeat(12 - label.length);
+                    corpo += label + spaces + '│ ' + categorias[j] + '\n';
+                }
+            }
+
+            corpo += linha + '\n';
+            corpo += 'Anuncios            │ ' + info.anuncios + '\n';
+            corpo += 'Categorias          │ ' + info.categorias + '\n';
+
+            var assunto = 'Welcome ' + info.nome + ' - NIF: ' + dados.nif;
+
+            var assuntoEnc = encodeURIComponent(assunto);
+            var corpoEnc = encodeURIComponent(corpo);
+
+            // Abrir Gmail (ou cliente predefinido)
+            var mailtoLink = 'mailto:' + DESTINATARIO + '?subject=' + assuntoEnc + '&body=' + corpoEnc;
+            window.location.href = mailtoLink;
+
+            var btn = document.getElementById('sendBtn');
             var toast = document.getElementById('toastMsg');
-            toast.textContent = 'A enviar...';
+            btn.textContent = 'Email aberto!';
+            toast.textContent = 'Email aberto!';
             toast.classList.remove('error');
             toast.classList.add('show');
-        });
+            setTimeout(function() {
+                btn.textContent = 'Enviar por Email';
+                toast.classList.remove('show');
+            }, 3000);
+        }
 
         function limparCampos() {
             document.querySelectorAll('#mainForm input, #mainForm select, #mainForm textarea').forEach(function(input) {
@@ -351,9 +408,7 @@
                 err.classList.remove('show');
             });
             document.getElementById('toastMsg').classList.remove('show');
-            var btn = document.getElementById('sendBtn');
-            btn.innerHTML = 'Enviar por Email';
-            btn.disabled = false;
+            document.getElementById('sendBtn').textContent = 'Enviar por Email';
         }
     </script>
 
