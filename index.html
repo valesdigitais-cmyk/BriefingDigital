@@ -4,450 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcomes</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Google Sans', Arial, sans-serif;
-        }
-
-        body {
-            background: #f5f5f5;
-            min-height: 100vh;
-            padding: 30px 20px;
-            color: #1a1a1a;
-            max-width: 920px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .header .logo-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 6px;
-        }
-
-        .header .logo-bar .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-        }
-
-        .header h1 .highlight {
-            color: #1a1a1a;
-        }
-
-        .header p {
-            color: #666666;
-            font-size: 15px;
-            margin-top: 4px;
-        }
-
-        .template-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 14px;
-            margin-bottom: 32px;
-        }
-
-        .template-card {
-            background: #ffffff;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 18px 14px 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-            position: relative;
-        }
-
-        .template-card:hover {
-            border-color: #1a1a1a;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.10);
-        }
-
-        .template-card.active {
-            border-color: #1a1a1a;
-            background: #f0f0f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .template-card .template-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .template-card .template-sub {
-            font-size: 13px;
-            color: #666666;
-            margin-top: 4px;
-        }
-
-        .template-card .template-badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 2px 12px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #1a1a1a;
-            background: #e8e8e8;
-            border-radius: 20px;
-        }
-
-        .template-card .check-mark {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #1a1a1a;
-            color: #ffffff;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .template-card.active .check-mark {
-            display: flex;
-        }
-
-        #form-container {
-            display: none;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 32px 36px 36px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 2px solid #d9d9d9;
-        }
-
-        #form-container.show {
-            display: block;
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-header {
-            margin-bottom: 24px;
-            padding-bottom: 18px;
-            border-bottom: 2px solid #e8e8e8;
-        }
-
-        .form-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .form-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .form-header h2 .highlight {
-            color: #1a1a1a;
-        }
-
-        .form-header p {
-            color: #666666;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-
-        .form-header .badge-info {
-            display: inline-block;
-            padding: 4px 14px;
-            background: #e8e8e8;
-            color: #1a1a1a;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .btn-back {
-            padding: 8px 18px;
-            background: transparent;
-            color: #1a1a1a;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 16px;
-        }
-
-        .btn-back:hover {
-            background: #e8e8e8;
-            border-color: #1a1a1a;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 5px;
-        }
-
-        .form-group label .required {
-            color: #cc0000;
-            margin-left: 2px;
-        }
-
-        .form-group label .optional {
-            color: #999999;
-            font-weight: 400;
-            font-size: 12px;
-            margin-left: 4px;
-        }
-
-        .form-group label .category-label {
-            font-size: 13px;
-            font-weight: 400;
-            color: #666666;
-            margin-left: 6px;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="url"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 11px 16px;
-            font-size: 14px;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            background: #fafafa;
-            color: #1a1a1a;
-            transition: all 0.25s ease;
-            outline: none;
-            font-family: 'Google Sans', Arial, sans-serif;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #1a1a1a;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(0,0,0,0.06);
-        }
-
-        .form-group input.error,
-        .form-group select.error,
-        .form-group textarea.error {
-            border-color: #cc0000;
-            box-shadow: 0 0 0 4px rgba(204, 0, 0, 0.08);
-            background: #fff8f8;
-        }
-
-        .form-group .error-msg {
-            font-size: 12px;
-            color: #cc0000;
-            margin-top: 4px;
-            display: none;
-            font-weight: 500;
-        }
-
-        .form-group .error-msg.show {
-            display: block;
-        }
-
-        .form-group textarea {
-            min-height: 60px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        .nif-highlight {
-            background: #f8f8f8;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 16px 18px;
-            margin-bottom: 16px;
-        }
-
-        .nif-highlight label {
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .nif-highlight input {
-            background: #ffffff;
-            border-color: #d9d9d9;
-        }
-
-        .nif-highlight input:focus {
-            border-color: #1a1a1a;
-            background: #ffffff;
-        }
-
-        .image-notice {
-            background: #f8f8f8;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 14px 20px;
-            margin-bottom: 16px;
-        }
-
-        .image-notice .notice-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: #1a1a1a;
-        }
-
-        .image-notice .notice-text {
-            font-size: 13px;
-            color: #4a4a4a;
-            margin-top: 4px;
-            line-height: 1.5;
-        }
-
-        .image-notice .notice-text strong {
-            color: #1a1a1a;
-        }
-
-        .submit-row {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn-send {
-            padding: 13px 44px;
-            background: #1a1a1a;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn-send:hover {
-            background: #333333;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.20);
-        }
-
-        .btn-send:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-reset {
-            padding: 13px 28px;
-            background: transparent;
-            color: #666666;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-reset:hover {
-            background: #f0f0f0;
-            border-color: #b0b0b0;
-        }
-
-        .toast-message {
-            margin-left: auto;
-            font-size: 14px;
-            font-weight: 600;
-            color: #2e7d32;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .toast-message.show {
-            opacity: 1;
-        }
-
-        .toast-message.error {
-            color: #cc0000;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid #ffffff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 640px) {
-            body { padding: 16px 12px; }
-            #form-container { padding: 20px 16px; }
-            .template-selector { grid-template-columns: 1fr 1fr; }
-            .submit-row { flex-direction: column; align-items: stretch; }
-            .btn-send { width: 100%; justify-content: center; }
-            .toast-message { margin-left: 0; text-align: center; }
-            .btn-back { width: 100%; text-align: center; }
-            .form-header-top { flex-direction: column; }
-            .header .logo-bar { flex-direction: column; }
-        }
-
-        @media (max-width: 420px) {
-            .template-selector { grid-template-columns: 1fr; }
-        }
-    </style>
 </head>
 <body>
 
@@ -516,12 +74,8 @@
             </div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- FORMULÁRIO COM ACTION CORRETO PARA FORMSUBMIT -->
-        <!-- ============================================================ -->
         <form id="mainForm" action="https://formsubmit.co/valesdigitais@leadzai.com" method="POST">
 
-            <!-- Campos ocultos do FormSubmit -->
             <input type="hidden" name="_subject" id="formSubject" value="Welcome - NIF: ">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
@@ -680,7 +234,6 @@
                 group.style.display = catNum <= numCategorias ? 'block' : 'none';
             });
 
-            // Categoria 1 obrigatória, as outras opcionais
             for (var i = 2; i <= 4; i++) {
                 var catGroup = document.querySelector('.categoria-group[data-categoria="' + i + '"]');
                 if (catGroup) {
@@ -727,9 +280,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ================================================================
-        // VALIDACAO ANTES DO ENVIO
-        // ================================================================
         document.getElementById('mainForm').addEventListener('submit', function(e) {
             var plataforma = templateAtual.plataforma;
             var valor = templateAtual.valor;
@@ -767,7 +317,6 @@
             if (!isValid) {
                 e.preventDefault();
                 alert('Por favor, preencha todos os campos obrigatorios.');
-                // Scroll para o primeiro erro
                 var firstError = document.querySelector('.error');
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -775,7 +324,6 @@
                 return;
             }
 
-            // Atualizar o assunto com o NIF
             var nifInput = document.getElementById('nif');
             var subjectInput = document.getElementById('formSubject');
             if (nifInput && subjectInput) {
@@ -784,25 +332,16 @@
                 subjectInput.value = 'Welcome ' + nomeTemplate + ' - NIF: ' + nif;
             }
 
-            // Mostrar loading
             var btn = document.getElementById('sendBtn');
             btn.innerHTML = '<span class="loading-spinner"></span> A enviar...';
             btn.disabled = true;
 
-            // O formulario vai ser submetido normalmente
-            // O toast aparece apos o envio (se tudo correr bem, a pagina redireciona)
             var toast = document.getElementById('toastMsg');
             toast.textContent = 'A enviar...';
             toast.classList.remove('error');
             toast.classList.add('show');
-
-            // Se o envio falhar (ex: CORS), mostrar erro
-            // O FormSubmit redireciona, por isso nao precisamos de fazer mais nada
         });
 
-        // ================================================================
-        // LIMPAR CAMPOS
-        // ================================================================
         function limparCampos() {
             document.querySelectorAll('#mainForm input, #mainForm select, #mainForm textarea').forEach(function(input) {
                 input.value = '';
