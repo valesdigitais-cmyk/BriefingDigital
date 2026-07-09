@@ -6,416 +6,71 @@
     <title>Welcomes</title>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Google Sans', Arial, sans-serif;
-        }
-        body {
-            background: #f5f5f5;
-            min-height: 100vh;
-            padding: 30px 20px;
-            color: #1a1a1a;
-            max-width: 920px;
-            margin: 0 auto;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        .header .logo-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 6px;
-        }
-        .header .logo-bar .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        .header h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-        }
-        .header h1 .highlight {
-            color: #1a1a1a;
-        }
-        .header p {
-            color: #666666;
-            font-size: 15px;
-            margin-top: 4px;
-        }
-
-        .template-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 14px;
-            margin-bottom: 32px;
-        }
-        .template-card {
-            background: #ffffff;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 18px 14px 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-            position: relative;
-        }
-        .template-card:hover {
-            border-color: #1a1a1a;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.10);
-        }
-        .template-card.active {
-            border-color: #1a1a1a;
-            background: #f0f0f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .template-card .template-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-        .template-card .template-sub {
-            font-size: 13px;
-            color: #666666;
-            margin-top: 4px;
-        }
-        .template-card .template-badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 2px 12px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #1a1a1a;
-            background: #e8e8e8;
-            border-radius: 20px;
-        }
-        .template-card .check-mark {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #1a1a1a;
-            color: #ffffff;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-        .template-card.active .check-mark {
-            display: flex;
-        }
-
-        #form-container {
-            display: none;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 32px 36px 36px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 2px solid #d9d9d9;
-        }
-        #form-container.show {
-            display: block;
-            animation: slideUp 0.4s ease;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-header {
-            margin-bottom: 24px;
-            padding-bottom: 18px;
-            border-bottom: 2px solid #e8e8e8;
-        }
-        .form-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .form-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-        .form-header h2 .highlight {
-            color: #1a1a1a;
-        }
-        .form-header p {
-            color: #666666;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-        .form-header .badge-info {
-            display: inline-block;
-            padding: 4px 14px;
-            background: #e8e8e8;
-            color: #1a1a1a;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .btn-back {
-            padding: 8px 18px;
-            background: transparent;
-            color: #1a1a1a;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 16px;
-        }
-        .btn-back:hover {
-            background: #e8e8e8;
-            border-color: #1a1a1a;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 5px;
-        }
-        .form-group label .required {
-            color: #cc0000;
-            margin-left: 2px;
-        }
-        .form-group label .optional {
-            color: #999999;
-            font-weight: 400;
-            font-size: 12px;
-            margin-left: 4px;
-        }
-        .form-group label .category-label {
-            font-size: 13px;
-            font-weight: 400;
-            color: #666666;
-            margin-left: 6px;
-        }
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="url"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 11px 16px;
-            font-size: 14px;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            background: #fafafa;
-            color: #1a1a1a;
-            transition: all 0.25s ease;
-            outline: none;
-            font-family: 'Google Sans', Arial, sans-serif;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #1a1a1a;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(0,0,0,0.06);
-        }
-        .form-group input.error,
-        .form-group select.error,
-        .form-group textarea.error {
-            border-color: #cc0000;
-            box-shadow: 0 0 0 4px rgba(204, 0, 0, 0.08);
-            background: #fff8f8;
-        }
-        .form-group .error-msg {
-            font-size: 12px;
-            color: #cc0000;
-            margin-top: 4px;
-            display: none;
-            font-weight: 500;
-        }
-        .form-group .error-msg.show {
-            display: block;
-        }
-        .form-group textarea {
-            min-height: 60px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        .nif-highlight {
-            background: #f8f8f8;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 16px 18px;
-            margin-bottom: 16px;
-        }
-        .nif-highlight label {
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-        .nif-highlight input {
-            background: #ffffff;
-            border-color: #d9d9d9;
-        }
-        .nif-highlight input:focus {
-            border-color: #1a1a1a;
-            background: #ffffff;
-        }
-
-        .image-notice {
-            background: #f8f8f8;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 14px 20px;
-            margin-bottom: 16px;
-        }
-        .image-notice .notice-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: #1a1a1a;
-        }
-        .image-notice .notice-text {
-            font-size: 13px;
-            color: #4a4a4a;
-            margin-top: 4px;
-            line-height: 1.5;
-        }
-        .image-notice .notice-text strong {
-            color: #1a1a1a;
-        }
-
-        .info-message {
-            background: #f0f7ff;
-            border-left: 5px solid #1a73e8;
-            border-radius: 10px;
-            padding: 18px 22px;
-            margin-bottom: 20px;
-            margin-top: 10px;
-        }
-        .info-message .info-message-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: #1a3a6a;
-            margin-bottom: 8px;
-        }
-        .info-message .info-message-content {
-            font-size: 14px;
-            color: #1a1a1a;
-            line-height: 1.6;
-        }
-        .info-message .info-message-content ul {
-            margin: 6px 0 4px 20px;
-            padding: 0;
-        }
-        .info-message .info-message-content ul li {
-            margin-bottom: 2px;
-        }
-        .info-message .info-message-content strong {
-            color: #0d2b4a;
-        }
-
-        .submit-row {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        .btn-send {
-            padding: 13px 44px;
-            background: #1a1a1a;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .btn-send:hover {
-            background: #333333;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.20);
-        }
-        .btn-send:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .btn-reset {
-            padding: 13px 28px;
-            background: transparent;
-            color: #666666;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .btn-reset:hover {
-            background: #f0f0f0;
-            border-color: #b0b0b0;
-        }
-
-        .toast-message {
-            margin-left: auto;
-            font-size: 14px;
-            font-weight: 600;
-            color: #2e7d32;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .toast-message.show {
-            opacity: 1;
-        }
-        .toast-message.error {
-            color: #cc0000;
-        }
-
-        @media (max-width: 640px) {
-            body { padding: 16px 12px; }
-            #form-container { padding: 20px 16px; }
-            .template-selector { grid-template-columns: 1fr 1fr; }
-            .submit-row { flex-direction: column; align-items: stretch; }
-            .btn-send { width: 100%; justify-content: center; }
-            .toast-message { margin-left: 0; text-align: center; }
-            .btn-back { width: 100%; text-align: center; }
-            .form-header-top { flex-direction: column; }
-            .header .logo-bar { flex-direction: column; }
-            .info-message { padding: 14px 16px; }
-            .info-message .info-message-content ul { margin-left: 16px; }
-        }
-        @media (max-width: 420px) {
-            .template-selector { grid-template-columns: 1fr; }
-        }
+        /* TODO O CSS AQUI (igual ao anterior) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Google Sans', Arial, sans-serif; }
+        body { background: #f5f5f5; min-height: 100vh; padding: 30px 20px; color: #1a1a1a; max-width: 920px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 32px; }
+        .header .logo-bar { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 6px; }
+        .header .logo-bar .logo-icon { width: 40px; height: 40px; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 700; font-size: 18px; }
+        .header h1 { font-size: 32px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.5px; }
+        .header h1 .highlight { color: #1a1a1a; }
+        .header p { color: #666666; font-size: 15px; margin-top: 4px; }
+        .template-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; margin-bottom: 32px; }
+        .template-card { background: #ffffff; border: 2px solid #d9d9d9; border-radius: 10px; padding: 18px 14px 16px; cursor: pointer; transition: all 0.3s ease; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.04); position: relative; }
+        .template-card:hover { border-color: #1a1a1a; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
+        .template-card.active { border-color: #1a1a1a; background: #f0f0f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .template-card .template-title { font-size: 17px; font-weight: 600; color: #1a1a1a; }
+        .template-card .template-sub { font-size: 13px; color: #666666; margin-top: 4px; }
+        .template-card .template-badge { display: inline-block; margin-top: 8px; padding: 2px 12px; font-size: 11px; font-weight: 600; color: #1a1a1a; background: #e8e8e8; border-radius: 20px; }
+        .template-card .check-mark { position: absolute; top: -8px; right: -8px; background: #1a1a1a; color: #ffffff; width: 26px; height: 26px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .template-card.active .check-mark { display: flex; }
+        #form-container { display: none; background: #ffffff; border-radius: 12px; padding: 32px 36px 36px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 2px solid #d9d9d9; }
+        #form-container.show { display: block; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .form-header { margin-bottom: 24px; padding-bottom: 18px; border-bottom: 2px solid #e8e8e8; }
+        .form-header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; }
+        .form-header h2 { font-size: 24px; font-weight: 700; color: #1a1a1a; }
+        .form-header h2 .highlight { color: #1a1a1a; }
+        .form-header p { color: #666666; font-size: 14px; margin-top: 4px; }
+        .form-header .badge-info { display: inline-block; padding: 4px 14px; background: #e8e8e8; color: #1a1a1a; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .btn-back { padding: 8px 18px; background: transparent; color: #1a1a1a; border: 2px solid #d9d9d9; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-bottom: 16px; }
+        .btn-back:hover { background: #e8e8e8; border-color: #1a1a1a; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 5px; }
+        .form-group label .required { color: #cc0000; margin-left: 2px; }
+        .form-group label .optional { color: #999999; font-weight: 400; font-size: 12px; margin-left: 4px; }
+        .form-group label .category-label { font-size: 13px; font-weight: 400; color: #666666; margin-left: 6px; }
+        .form-group input[type="text"], .form-group input[type="email"], .form-group input[type="url"], .form-group select, .form-group textarea { width: 100%; padding: 11px 16px; font-size: 14px; border: 2px solid #d9d9d9; border-radius: 8px; background: #fafafa; color: #1a1a1a; transition: all 0.25s ease; outline: none; font-family: 'Google Sans', Arial, sans-serif; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #1a1a1a; background: #ffffff; box-shadow: 0 0 0 4px rgba(0,0,0,0.06); }
+        .form-group input.error, .form-group select.error, .form-group textarea.error { border-color: #cc0000; box-shadow: 0 0 0 4px rgba(204,0,0,0.08); background: #fff8f8; }
+        .form-group .error-msg { font-size: 12px; color: #cc0000; margin-top: 4px; display: none; font-weight: 500; }
+        .form-group .error-msg.show { display: block; }
+        .form-group textarea { min-height: 60px; resize: vertical; line-height: 1.5; }
+        .nif-highlight { background: #f8f8f8; border: 2px solid #d9d9d9; border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; }
+        .nif-highlight label { font-weight: 600; color: #1a1a1a; }
+        .nif-highlight input { background: #ffffff; border-color: #d9d9d9; }
+        .nif-highlight input:focus { border-color: #1a1a1a; background: #ffffff; }
+        .image-notice { background: #f8f8f8; border: 2px solid #d9d9d9; border-radius: 10px; padding: 14px 20px; margin-bottom: 16px; }
+        .image-notice .notice-title { font-weight: 700; font-size: 15px; color: #1a1a1a; }
+        .image-notice .notice-text { font-size: 13px; color: #4a4a4a; margin-top: 4px; line-height: 1.5; }
+        .image-notice .notice-text strong { color: #1a1a1a; }
+        .info-message { background: #f0f7ff; border-left: 5px solid #1a73e8; border-radius: 10px; padding: 18px 22px; margin-bottom: 20px; margin-top: 10px; }
+        .info-message .info-message-title { font-weight: 700; font-size: 15px; color: #1a3a6a; margin-bottom: 8px; }
+        .info-message .info-message-content { font-size: 14px; color: #1a1a1a; line-height: 1.6; }
+        .info-message .info-message-content ul { margin: 6px 0 4px 20px; padding: 0; }
+        .info-message .info-message-content ul li { margin-bottom: 2px; }
+        .info-message .info-message-content strong { color: #0d2b4a; }
+        .submit-row { display: flex; gap: 14px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+        .btn-send { padding: 13px 44px; background: #1a1a1a; color: #ffffff; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .btn-send:hover { background: #333333; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.20); }
+        .btn-send:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-reset { padding: 13px 28px; background: transparent; color: #666666; border: 2px solid #d9d9d9; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+        .btn-reset:hover { background: #f0f0f0; border-color: #b0b0b0; }
+        .toast-message { margin-left: auto; font-size: 14px; font-weight: 600; color: #2e7d32; opacity: 0; transition: opacity 0.3s ease; }
+        .toast-message.show { opacity: 1; }
+        .toast-message.error { color: #cc0000; }
+        @media (max-width: 640px) { body { padding: 16px 12px; } #form-container { padding: 20px 16px; } .template-selector { grid-template-columns: 1fr 1fr; } .submit-row { flex-direction: column; align-items: stretch; } .btn-send { width: 100%; justify-content: center; } .toast-message { margin-left: 0; text-align: center; } .btn-back { width: 100%; text-align: center; } .form-header-top { flex-direction: column; } .header .logo-bar { flex-direction: column; } .info-message { padding: 14px 16px; } .info-message .info-message-content ul { margin-left: 16px; } }
+        @media (max-width: 420px) { .template-selector { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -480,13 +135,9 @@
             </div>
         </div>
 
-        <!-- FORMULÁRIO TRADICIONAL (único método, sem fetch) -->
         <form id="mainForm" action="https://formsubmit.co/valesdigitais@leadzai.com" method="POST" target="_blank">
-
-            <!-- Campos ocultos do FormSubmit -->
             <input type="hidden" name="_subject" id="formSubject" value="Welcome - NIF: ">
             <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="box">
             <input type="hidden" name="_body" id="formBody">
 
             <div class="form-group nif-highlight">
@@ -579,7 +230,6 @@
                 </div>
             </div>
 
-            <!-- MENSAGEM OBRIGATÓRIA -->
             <div class="info-message">
                 <div class="info-message-title">📌 Mensagem obrigatória a partilhar com o cliente</div>
                 <div class="info-message-content">
@@ -705,136 +355,73 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function construirCorpoHTML(info, dados, categorias, observacoes) {
-            return `
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Google Sans', Arial, sans-serif;
-            background: #f0f2f5;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 620px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border: 1px solid #e8e8e8;
-        }
-        .header {
-            background: #1a1a1a;
-            color: #ffffff;
-            padding: 24px 28px;
-            text-align: center;
-        }
-        .header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            margin: 0;
-            letter-spacing: 0.3px;
-        }
-        .header .sub {
-            font-size: 14px;
-            font-weight: 400;
-            color: #aaaaaa;
-            margin-top: 4px;
-        }
-        .content {
-            padding: 28px;
-        }
-        .section-title {
-            font-weight: 600;
-            font-size: 13px;
-            color: #888888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        .field {
-            display: flex;
-            padding: 8px 0;
-            border-bottom: 1px solid #f4f4f4;
-        }
-        .field:last-child {
-            border-bottom: none;
-        }
-        .label {
-            font-weight: 600;
-            color: #1a1a1a;
-            width: 150px;
-            flex-shrink: 0;
-            font-size: 14px;
-        }
-        .value {
-            color: #333333;
-            font-size: 14px;
-            word-break: break-word;
-        }
-        .footer {
-            background: #f8f8f8;
-            padding: 14px 28px;
-            text-align: center;
-            font-size: 12px;
-            color: #999999;
-            border-top: 1px solid #eeeeee;
-        }
-        @media (max-width: 480px) {
-            .field { flex-wrap: wrap; }
-            .label { width: 100%; padding-bottom: 2px; }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>WELCOME ${info.nome}</h1>
-            <div class="sub">NIF: ${dados.nif}</div>
-        </div>
-        <div class="content">
-            <div class="section-title">Dados do Cliente</div>
-            ${info.temTipo ? `<div class="field"><span class="label">Tipo de campanha</span><span class="value">${dados.tipo}</span></div>` : ''}
-            <div class="field"><span class="label">Nome comercial</span><span class="value">${dados.nome}</span></div>
-            <div class="field"><span class="label">Website/redes</span><span class="value">${dados.website}</span></div>
-            ${info.temEmail ? `<div class="field"><span class="label">E-mail Admin</span><span class="value">${dados.email}</span></div>` : ''}
-            ${dados.contacto ? `<div class="field"><span class="label">Contacto</span><span class="value">${dados.contacto}</span></div>` : ''}
+        // ================================================================
+        // FUNÇÃO PARA CONSTRUIR O TEXTO DO EMAIL (SIMPLES, SEM HTML)
+        // ================================================================
+        function construirCorpoTexto(info, dados, categorias, observacoes) {
+            var linha = '--------------------------------------------';
+            var linha2 = '════════════════════════════════════════════';
 
-            <div class="section-title" style="margin-top:20px;">Configuração da Campanha</div>
-            <div class="field"><span class="label">Duração</span><span class="value">${dados.duracao}</span></div>
-            <div class="field"><span class="label">Segmentação</span><span class="value">${dados.segmentacao}</span></div>
-            <div class="field"><span class="label">Público-alvo</span><span class="value">${dados.publico}</span></div>
+            var texto = '';
+            texto += 'WELCOME ' + info.nome.toUpperCase() + '\n';
+            texto += linha2 + '\n\n';
 
-            ${categorias.length > 0 ? `<div class="section-title" style="margin-top:20px;">Categorias</div>` : ''}
-            ${categorias.map(function(cat, i) {
-                return '<div class="field"><span class="label">Categoria ' + (i+1) + '</span><span class="value">' + cat + '</span></div>';
-            }).join('')}
+            texto += 'NIF                 : ' + dados.nif + '\n';
 
-            <div class="section-title" style="margin-top:20px;">Estrutura da Campanha</div>
-            <div class="field"><span class="label">Anúncios</span><span class="value">${info.anuncios}</span></div>
-            <div class="field"><span class="label">Categorias</span><span class="value">${info.categorias}</span></div>
-            ${info.maxImagens > 0 ? `<div class="field"><span class="label">Imagens</span><span class="value">Enviar por e-mail (PNG, JPG, máx. ${info.maxImagens} imagens, 5MB cada)</span></div>` : ''}
+            if (info.temTipo) {
+                texto += 'Tipo de campanha    : ' + dados.tipo + '\n';
+            }
 
-            ${observacoes ? `
-            <div class="section-title" style="margin-top:20px;">Observações</div>
-            <div class="field"><span class="label">Observações</span><span class="value">${observacoes}</span></div>
-            ` : ''}
-        </div>
-        <div class="footer">
-            Enviado via Welcomes · Páginas Amarelas
-        </div>
-    </div>
-</body>
-</html>
-            `;
+            texto += 'Nome comercial      : ' + dados.nome + '\n';
+            texto += 'Website/redes       : ' + dados.website + '\n';
+
+            if (info.temEmail) {
+                texto += 'Email Admin         : ' + dados.email + '\n';
+            }
+
+            if (dados.contacto) {
+                texto += 'Contacto            : ' + dados.contacto + '\n';
+            }
+
+            texto += linha + '\n';
+            texto += 'Duracao             : ' + dados.duracao + '\n';
+            texto += 'Segmentacao         : ' + dados.segmentacao + '\n';
+            texto += 'Publico-alvo        : ' + dados.publico + '\n';
+
+            if (categorias.length > 0) {
+                for (var j = 0; j < categorias.length; j++) {
+                    var catNum = j + 1;
+                    var label = 'Categoria ' + catNum;
+                    var spaces = ' '.repeat(12 - label.length);
+                    texto += label + spaces + ': ' + categorias[j] + '\n';
+                }
+            }
+
+            texto += linha + '\n';
+            texto += 'Anuncios            : ' + info.anuncios + '\n';
+            texto += 'Categorias          : ' + info.categorias + '\n';
+
+            if (info.maxImagens > 0) {
+                texto += linha + '\n';
+                texto += 'IMAGENS\n';
+                texto += 'Enviar por email   : ' + info.maxImagens + ' imagens (PNG, JPG, max. 5MB cada)\n';
+            }
+
+            if (observacoes) {
+                texto += linha + '\n';
+                texto += 'OBSERVACOES\n';
+                texto += observacoes + '\n';
+            }
+
+            texto += '\n' + linha2;
+            texto += '\nEnviado via formulario Welcomes';
+
+            return texto;
         }
 
+        // ================================================================
+        // VALIDAÇÃO ANTES DE ENVIAR
+        // ================================================================
         function validarAntesDeEnviar(event) {
             var plataforma = templateAtual.plataforma;
             var valor = templateAtual.valor;
@@ -879,7 +466,6 @@
                 return;
             }
 
-            // Recolher dados
             var dados = {};
             campos.forEach(function(campo) {
                 var input = document.getElementById(campo);
@@ -907,13 +493,11 @@
             });
 
             var assunto = 'Welcome ' + info.nome + ' - NIF: ' + dados.nif;
-            var corpoHTML = construirCorpoHTML(info, dados, categorias, observacoes);
+            var corpoTexto = construirCorpoTexto(info, dados, categorias, observacoes);
 
-            // Atualizar campos ocultos do formulário
             document.getElementById('formSubject').value = assunto;
-            document.getElementById('formBody').value = corpoHTML;
+            document.getElementById('formBody').value = corpoTexto;
 
-            // Feedback visual
             var btn = document.getElementById('sendBtn');
             btn.textContent = 'A enviar...';
             btn.disabled = true;
@@ -922,9 +506,6 @@
             toast.textContent = 'A enviar...';
             toast.classList.remove('error');
             toast.classList.add('show');
-
-            // O formulário vai ser submetido normalmente (abre numa nova aba)
-            // O evento não é prevenido
         }
 
         function limparCampos() {
