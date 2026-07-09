@@ -340,11 +340,49 @@ body {
     color: #1a1a1a;
 }
 
+/* ================================================================ */
+/* MENSAGEM OBRIGATÓRIA                                             */
+/* ================================================================ */
+.info-message {
+    background: #f0f7ff;
+    border-left: 5px solid #1a73e8;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.info-message .info-message-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #1a3a6a;
+    margin-bottom: 8px;
+}
+
+.info-message .info-message-content {
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+.info-message .info-message-content ul {
+    margin: 6px 0 4px 20px;
+    padding: 0;
+}
+
+.info-message .info-message-content ul li {
+    margin-bottom: 2px;
+}
+
+.info-message .info-message-content strong {
+    color: #0d2b4a;
+}
+
 .submit-row {
     display: flex;
     gap: 14px;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 8px;
     flex-wrap: wrap;
 }
 
@@ -434,6 +472,8 @@ body {
     .btn-back { width: 100%; text-align: center; }
     .form-header-top { flex-direction: column; }
     .header .logo-bar { flex-direction: column; }
+    .info-message { padding: 14px 16px; }
+    .info-message .info-message-content ul { margin-left: 16px; }
 }
 
 @media (max-width: 420px) {
