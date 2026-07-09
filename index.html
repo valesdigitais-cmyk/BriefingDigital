@@ -365,9 +365,12 @@
             document.getElementById('templateSelecionado').value = info.nome;
             document.getElementById('codefreeformName').value = dados.nome;
             document.getElementById('codefreeformEmail').value = emailAdmin || 'valesdigitais@leadzai.com';
+            var submissionId = 'BD-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+
             document.getElementById('codefreeformMessage').value = [
                 subject,
                 '',
+                'Submissão interna: ' + submissionId,
                 'Template: ' + info.nome,
                 'NIF: ' + dados.nif,
                 'Nome comercial: ' + dados.nome,
@@ -425,7 +428,11 @@
                     form.reset();
                     limparCampos();
                 } else {
-                    mostrarAlerta(data.message || 'Ocorreu um erro ao enviar a mensagem.', 'error');
+                    var mensagemErro = data.message || 'Ocorreu um erro ao enviar a mensagem.';
+                    if (/spam/i.test(mensagemErro)) {
+                        mensagemErro = 'Não foi possível enviar a mensagem. Tente novamente.';
+                    }
+                    mostrarAlerta(mensagemErro, 'error');
                 }
             } catch (error) {
                 mostrarAlerta('Erro de rede. Tente novamente.', 'error');
