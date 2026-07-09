@@ -69,10 +69,12 @@
             </div>
         </div>
 
-        <form id="mainForm" action="https://formsubmit.co/valesdigitais@leadzai.com" method="POST" target="_blank">
+        <form id="mainForm" action="https://formsubmit.co/valesdigitais@leadzai.com" method="POST">
             <input type="hidden" name="_subject" id="formSubject" value="Welcome - NIF: ">
             <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_body" id="formBody">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="template" id="templateSelecionado">
+            <input type="hidden" name="resumo" id="formBody">
 
             <div class="form-group nif-highlight">
                 <label>NIF (Número de Identificação Fiscal) <span class="required">*</span></label>
@@ -181,7 +183,7 @@
             </div>
 
             <div class="submit-row">
-                <button type="submit" class="btn-send" id="sendBtn" onclick="validarAntesDeEnviar(event)">Enviar por E-mail</button>
+                <button type="submit" class="btn-send" id="sendBtn">Enviar por E-mail</button>
                 <button type="reset" class="btn-reset" onclick="limparCampos()">Limpar tudo</button>
                 <span class="toast-message" id="toastMsg">Enviado!</span>
             </div>
@@ -225,10 +227,16 @@
             document.getElementById('formBadge').textContent = info.anuncios + ' anúncios · ' + info.categorias + ' categorias';
 
             var campoTipo = document.getElementById('campoTipo');
+            var tipoInput = document.getElementById('tipo');
             campoTipo.style.display = info.temTipo ? 'block' : 'none';
+            tipoInput.required = info.temTipo;
+            if (!info.temTipo) tipoInput.value = '';
 
             var campoEmail = document.getElementById('campo-email');
+            var emailInput = document.getElementById('email');
             campoEmail.style.display = info.temEmail ? 'block' : 'none';
+            emailInput.required = info.temEmail;
+            if (!info.temEmail) emailInput.value = '';
 
             var imageNotice = document.getElementById('imageNotice');
             if (info.maxImagens > 0) {
@@ -352,6 +360,8 @@
             return texto;
         }
 
+        document.getElementById('mainForm').addEventListener('submit', validarAntesDeEnviar);
+
         function validarAntesDeEnviar(event) {
             var plataforma = templateAtual.plataforma;
             var valor = templateAtual.valor;
@@ -426,6 +436,7 @@
             var corpoTexto = construirCorpoTexto(info, dados, categorias, observacoes);
 
             document.getElementById('formSubject').value = assunto;
+            document.getElementById('templateSelecionado').value = info.nome;
             document.getElementById('formBody').value = corpoTexto;
 
             var btn = document.getElementById('sendBtn');
@@ -439,7 +450,7 @@
         }
 
         function limparCampos() {
-            document.querySelectorAll('#mainForm input, #mainForm select, #mainForm textarea').forEach(function(input) {
+            document.querySelectorAll('#mainForm input:not([type="hidden"]), #mainForm select, #mainForm textarea').forEach(function(input) {
                 input.value = '';
                 input.classList.remove('error');
             });
