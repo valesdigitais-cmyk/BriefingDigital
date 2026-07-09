@@ -214,6 +214,26 @@ body {
     margin-bottom: 16px;
 }
 
+.form-alert {
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-alert.success {
+    color: #065f46;
+    background: #d1fae5;
+    border: 1px solid #6ee7b7;
+}
+
+.form-alert.error {
+    color: #b91c1c;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+}
+
 .form-group label {
     display: block;
     font-size: 14px;

@@ -69,10 +69,13 @@
             </div>
         </div>
 
-        <form id="mainForm" action="https://formsubmit.co/valesdigitais@leadzai.com" method="POST">
-            <input type="hidden" name="_subject" id="formSubject" value="Welcome - NIF: ">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
+        <form id="mainForm" action="https://codefreeform.com/api/contact-api/" method="POST">
+            <div class="form-alert" id="formAlert" style="display:none;"></div>
+            <input type="hidden" name="access_key" value="A3B3EF">
+            <input type="hidden" name="name" id="codefreeformName">
+            <input type="hidden" name="email" id="codefreeformEmail">
+            <input type="hidden" name="subject" id="formSubject" value="Welcome - NIF: ">
+            <input type="hidden" name="message" id="codefreeformMessage">
             <input type="hidden" name="template" id="templateSelecionado">
 
             <div class="form-group nif-highlight">
@@ -347,21 +350,89 @@
                 dados[campo] = input ? input.value.trim() : '';
             });
 
-            document.getElementById('formSubject').value = 'Welcome ' + info.nome + ' - NIF: ' + dados.nif;
+            var subject = 'Welcome ' + info.nome + ' - NIF: ' + dados.nif;
+            var emailAdmin = document.getElementById('email').value.trim();
+            var contacto = document.getElementById('contacto').value.trim();
+            var categorias = [];
+            for (var i = 1; i <= info.categorias; i++) {
+                var categoria = document.getElementById('categoria' + i);
+                if (categoria && categoria.value.trim()) {
+                    categorias.push('Categoria ' + i + ': ' + categoria.value.trim());
+                }
+            }
+
+            document.getElementById('formSubject').value = subject;
             document.getElementById('templateSelecionado').value = info.nome;
+            document.getElementById('codefreeformName').value = dados.nome;
+            document.getElementById('codefreeformEmail').value = emailAdmin || 'valesdigitais@leadzai.com';
+            document.getElementById('codefreeformMessage').value = [
+                subject,
+                '',
+                'Template: ' + info.nome,
+                'NIF: ' + dados.nif,
+                'Nome comercial: ' + dados.nome,
+                'Website/redes: ' + dados.website,
+                info.temTipo ? 'Tipo de campanha: ' + dados.tipo : '',
+                emailAdmin ? 'E-mail administrador/owner: ' + emailAdmin : '',
+                contacto ? 'Número de contacto: ' + contacto : '',
+                'Duração da campanha: ' + dados.duracao,
+                'Segmentação geográfica: ' + dados.segmentacao,
+                'Público-alvo: ' + dados.publico,
+                categorias.join('\n'),
+                document.getElementById('observacoes').value.trim() ? 'Observações: ' + document.getElementById('observacoes').value.trim() : ''
+            ].filter(Boolean).join('\n');
 
             return true;
         }
 
-        function enviarFormulario(event) {
+        function mostrarAlerta(mensagem, tipo) {
+            var alertBox = document.getElementById('formAlert');
+            if (!alertBox) return;
+            alertBox.style.display = 'block';
+            alertBox.textContent = mensagem;
+            alertBox.className = 'form-alert ' + (tipo === 'error' ? 'error' : 'success');
+            setTimeout(function() {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        async function enviarFormulario(event) {
+            event.preventDefault();
+
             if (!validarFormulario()) {
-                event.preventDefault();
                 return;
             }
 
+            var form = event.currentTarget;
             var btn = document.getElementById('sendBtn');
+            var originalText = btn.textContent;
             btn.textContent = 'A enviar...';
             btn.disabled = true;
+
+            try {
+                var response = await fetch(form.action, {
+                    method: form.method || 'POST',
+                    body: JSON.stringify(Object.fromEntries(new FormData(form))),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                var data = await response.json().catch(function() { return {}; });
+
+                if (response.ok && (data.success === true || data.success === undefined)) {
+                    mostrarAlerta(data.message || 'Mensagem enviada com sucesso!', 'success');
+                    form.reset();
+                    limparCampos();
+                } else {
+                    mostrarAlerta(data.message || 'Ocorreu um erro ao enviar a mensagem.', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('Erro de rede. Tente novamente.', 'error');
+            }
+
+            btn.textContent = originalText;
+            btn.disabled = false;
         }
 
         function limparCampos() {
