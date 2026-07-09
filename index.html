@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <form id="mainForm" action="https://formsubmit.co/valesdigitais@leadzai.com" method="POST">
+        <form id="mainForm" action="https://formsubmit.co/ajax/valesdigitais@leadzai.com" method="POST">
             <input type="hidden" name="_subject" id="formSubject" value="Welcome - NIF: ">
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
@@ -186,6 +186,7 @@
                 <button type="submit" class="btn-send" id="sendBtn">Enviar por E-mail</button>
                 <button type="reset" class="btn-reset" onclick="limparCampos()">Limpar tudo</button>
                 <span class="toast-message" id="toastMsg">Enviado!</span>
+                <a class="mailto-fallback" id="mailtoFallback" href="#">Abrir no e-mail</a>
             </div>
         </form>
     </div>
@@ -360,16 +361,15 @@
             return texto;
         }
 
-        document.getElementById('mainForm').addEventListener('submit', validarAntesDeEnviar);
+        document.getElementById('mainForm').addEventListener('submit', enviarFormulario);
 
-        function validarAntesDeEnviar(event) {
+        function validarFormulario() {
             var plataforma = templateAtual.plataforma;
             var valor = templateAtual.valor;
 
             if (!plataforma || !valor) {
-                event.preventDefault();
                 alert('Selecione um template primeiro.');
-                return;
+                return null;
             }
 
             var info = TEMPLATE_INFO[plataforma][valor];
@@ -397,13 +397,12 @@
             });
 
             if (!isValid) {
-                event.preventDefault();
                 alert('Por favor, preencha todos os campos obrigatórios.');
                 var firstError = document.querySelector('.error');
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-                return;
+                return null;
             }
 
             var dados = {};
@@ -439,14 +438,96 @@
             document.getElementById('templateSelecionado').value = info.nome;
             document.getElementById('formBody').value = corpoTexto;
 
+            return {
+                info: info,
+                dados: dados,
+                categorias: categorias,
+                observacoes: observacoes,
+                assunto: assunto,
+                corpoTexto: corpoTexto
+            };
+        }
+
+        function criarPayloadEnvio(resultado) {
+            var payload = {
+                _subject: resultado.assunto,
+                _captcha: 'false',
+                _template: 'table',
+                template: resultado.info.nome,
+                nif: resultado.dados.nif,
+                nome: resultado.dados.nome,
+                website: resultado.dados.website,
+                duracao: resultado.dados.duracao,
+                segmentacao: resultado.dados.segmentacao,
+                publico: resultado.dados.publico,
+                resumo: resultado.corpoTexto
+            };
+
+            if (resultado.info.temTipo) payload.tipo = resultado.dados.tipo;
+            if (resultado.info.temEmail) {
+                payload.email_admin = resultado.dados.email;
+                payload._replyto = resultado.dados.email;
+            }
+            if (resultado.dados.contacto) payload.contacto = resultado.dados.contacto;
+            if (resultado.observacoes) payload.observacoes = resultado.observacoes;
+            resultado.categorias.forEach(function(categoria, index) {
+                payload['categoria' + (index + 1)] = categoria;
+            });
+
+            return payload;
+        }
+
+        function atualizarEstadoEnvio(mensagem, isError) {
+            var toast = document.getElementById('toastMsg');
+            toast.textContent = mensagem;
+            toast.classList.toggle('error', Boolean(isError));
+            toast.classList.add('show');
+        }
+
+        function atualizarFallbackEmail(assunto, corpoTexto, mostrar) {
+            var fallback = document.getElementById('mailtoFallback');
+            var href = 'mailto:valesdigitais@leadzai.com?subject=' + encodeURIComponent(assunto) + '&body=' + encodeURIComponent(corpoTexto);
+            fallback.href = href;
+            fallback.classList.toggle('show', Boolean(mostrar));
+        }
+
+        function enviarFormulario(event) {
+            event.preventDefault();
+
+            var resultado = validarFormulario();
+            if (!resultado) return;
+
             var btn = document.getElementById('sendBtn');
             btn.textContent = 'A enviar...';
             btn.disabled = true;
+            atualizarEstadoEnvio('A enviar...', false);
+            atualizarFallbackEmail(resultado.assunto, resultado.corpoTexto, false);
 
-            var toast = document.getElementById('toastMsg');
-            toast.textContent = 'A enviar...';
-            toast.classList.remove('error');
-            toast.classList.add('show');
+            fetch('https://formsubmit.co/ajax/valesdigitais@leadzai.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(criarPayloadEnvio(resultado))
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Falha no envio (' + response.status + ').');
+                }
+                return response.json();
+            })
+            .then(function() {
+                atualizarEstadoEnvio('Enviado com sucesso!', false);
+                btn.textContent = 'Enviado';
+            })
+            .catch(function(error) {
+                console.error(error);
+                atualizarEstadoEnvio('Não foi possível enviar automaticamente. Use "Abrir no e-mail".', true);
+                atualizarFallbackEmail(resultado.assunto, resultado.corpoTexto, true);
+                btn.textContent = 'Tentar novamente';
+                btn.disabled = false;
+            });
         }
 
         function limparCampos() {
@@ -458,6 +539,7 @@
                 err.classList.remove('show');
             });
             document.getElementById('toastMsg').classList.remove('show');
+            atualizarFallbackEmail('', '', false);
             var btn = document.getElementById('sendBtn');
             btn.innerHTML = 'Enviar por E-mail';
             btn.disabled = false;
