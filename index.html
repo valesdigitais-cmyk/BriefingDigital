@@ -72,13 +72,18 @@
         <!-- ========================================================= -->
         <!-- FORMULÁRIO COM FORMINIT                                   -->
         <!-- ========================================================= -->
-        <form id="mainForm" action="https://api.forminit.com/f/z93lk74gyum" method="POST" target="_blank">
+        <form id="mainForm" method="POST" novalidate>
 
             <!-- SENDER BLOCK -->
             <input type="hidden" name="fi-sender-email" value="valesdigitais@leadzai.com">
             <input type="hidden" name="fi-sender-firstName" value="Páginas">
             <input type="hidden" name="fi-sender-lastName" value="Amarelas">
             <input type="hidden" name="fi-sender-company" value="Páginas Amarelas">
+            <input type="hidden" id="selectedTemplate" name="fi-text-template" value="">
+            <input type="hidden" id="selectedPlatform" name="fi-text-plataforma" value="">
+            <input type="hidden" id="selectedBudget" name="fi-text-orcamento" value="">
+            <input type="hidden" id="selectedAds" name="fi-number-anuncios" value="">
+            <input type="hidden" id="selectedCategories" name="fi-number-categorias" value="">
 
             <!-- CAMPOS DO FORMULÁRIO -->
             <div class="form-group nif-highlight">
@@ -188,14 +193,18 @@
             </div>
 
             <div class="submit-row">
-                <button type="button" class="btn-send" id="sendBtn" onclick="validarESubmeter()">Enviar por E-mail</button>
-                <button type="reset" class="btn-reset" onclick="limparCampos()">Limpar tudo</button>
+                <button type="submit" class="btn-send" id="sendBtn">Enviar por E-mail</button>
+                <button type="button" class="btn-reset" onclick="limparCampos()">Limpar tudo</button>
                 <span class="toast-message" id="toastMsg">Enviado!</span>
             </div>
         </form>
     </div>
 
+    <script src="https://forminit.com/sdk/v1/forminit.js"></script>
     <script>
+        var FORM_ID = 'z93lk74gyum';
+        var forminit = new Forminit();
+
         // ================================================================
         // TEMPLATE INFO
         // ================================================================
@@ -236,6 +245,11 @@
             document.getElementById('formTitle').textContent = info.nome;
             document.getElementById('formSub').textContent = 'Preencha os campos e clique em «Enviar por E-mail».';
             document.getElementById('formBadge').textContent = info.anuncios + ' anúncios · ' + info.categorias + ' categorias';
+            document.getElementById('selectedTemplate').value = info.nome;
+            document.getElementById('selectedPlatform').value = plataforma;
+            document.getElementById('selectedBudget').value = valor;
+            document.getElementById('selectedAds').value = info.anuncios;
+            document.getElementById('selectedCategories').value = info.categorias;
 
             var campoTipo = document.getElementById('campoTipo');
             campoTipo.style.display = info.temTipo ? 'block' : 'none';
@@ -307,7 +321,10 @@
         // ================================================================
         // VALIDAR E SUBMETER
         // ================================================================
-        function validarESubmeter() {
+        async function validarESubmeter(event) {
+            if (event) {
+                event.preventDefault();
+            }
             var plataforma = templateAtual.plataforma;
             var valor = templateAtual.valor;
 
@@ -359,30 +376,43 @@
             toast.classList.remove('error');
             toast.classList.add('show');
 
-            // Submeter o formulário
-            document.getElementById('mainForm').submit();
+            var form = document.getElementById('mainForm');
+            try {
+                var result = await forminit.submit(FORM_ID, new FormData(form));
+                if (result.error) {
+                    throw result.error;
+                }
 
-            // Restaurar botão após 3 segundos (caso a página não redirecione)
-            setTimeout(function() {
+                toast.textContent = 'Enviado com sucesso!';
+                toast.classList.remove('error');
+                toast.classList.add('show');
+                limparCampos(true);
+            } catch (error) {
+                toast.textContent = (error && error.message) ? error.message : 'Não foi possível enviar. Tente novamente.';
+                toast.classList.add('error', 'show');
+            } finally {
                 btn.textContent = 'Enviar por E-mail';
                 btn.disabled = false;
-                toast.classList.remove('show');
-            }, 5000);
+            }
         }
 
-        function limparCampos() {
-            document.querySelectorAll('#mainForm input, #mainForm select, #mainForm textarea').forEach(function(input) {
+        function limparCampos(preservarToast) {
+            document.querySelectorAll('#mainForm input:not([type="hidden"]), #mainForm select, #mainForm textarea').forEach(function(input) {
                 input.value = '';
                 input.classList.remove('error');
             });
             document.querySelectorAll('.error-msg').forEach(function(err) {
                 err.classList.remove('show');
             });
-            document.getElementById('toastMsg').classList.remove('show');
+            if (!preservarToast) {
+                document.getElementById('toastMsg').classList.remove('show', 'error');
+            }
             var btn = document.getElementById('sendBtn');
             btn.innerHTML = 'Enviar por E-mail';
             btn.disabled = false;
         }
+
+        document.getElementById('mainForm').addEventListener('submit', validarESubmeter);
     </script>
 
 </body>
