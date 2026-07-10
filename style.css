@@ -305,6 +305,18 @@ body {
     color: #1a1a1a;
 }
 
+.nif-highlight .nif-secondary-label {
+    margin-top: 14px;
+}
+
+.field-note {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #4a4a4a;
+    font-style: italic;
+}
+
 .nif-highlight input {
     background: #ffffff;
     border-color: #d9d9d9;
