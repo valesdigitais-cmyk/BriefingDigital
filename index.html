@@ -72,19 +72,15 @@
         <!-- ========================================================= -->
         <!-- FORMULÁRIO COM FORMINIT                                   -->
         <!-- ========================================================= -->
-        <form id="mainForm" action="https://api.forminit.com/f/z93lk74gyum" method="POST" target="_blank" onsubmit="return validarAntesDeEnviar(event)">
+        <form id="mainForm" action="https://api.forminit.com/f/z93lk74gyum" method="POST" target="_blank">
 
-            <!-- ====================================================== -->
-            <!-- SENDER BLOCK: Informação do submissor                 -->
-            <!-- ====================================================== -->
+            <!-- SENDER BLOCK -->
             <input type="hidden" name="fi-sender-email" value="valesdigitais@leadzai.com">
             <input type="hidden" name="fi-sender-firstName" value="Páginas">
             <input type="hidden" name="fi-sender-lastName" value="Amarelas">
             <input type="hidden" name="fi-sender-company" value="Páginas Amarelas">
 
-            <!-- ====================================================== -->
-            <!-- CAMPOS DO FORMULÁRIO (com prefixo fi-)                -->
-            <!-- ====================================================== -->
+            <!-- CAMPOS DO FORMULÁRIO -->
             <div class="form-group nif-highlight">
                 <label>NIF (Número de Identificação Fiscal) <span class="required">*</span></label>
                 <input type="text" id="nif" name="fi-text-nif" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" required>
@@ -192,7 +188,7 @@
             </div>
 
             <div class="submit-row">
-                <button type="submit" class="btn-send" id="sendBtn">Enviar por E-mail</button>
+                <button type="button" class="btn-send" id="sendBtn" onclick="validarESubmeter()">Enviar por E-mail</button>
                 <button type="reset" class="btn-reset" onclick="limparCampos()">Limpar tudo</button>
                 <span class="toast-message" id="toastMsg">Enviado!</span>
             </div>
@@ -309,17 +305,15 @@
         }
 
         // ================================================================
-        // FUNÇÃO DE VALIDAÇÃO
+        // VALIDAR E SUBMETER
         // ================================================================
-        function validarAntesDeEnviar(event) {
-            event.preventDefault();
-
+        function validarESubmeter() {
             var plataforma = templateAtual.plataforma;
             var valor = templateAtual.valor;
 
             if (!plataforma || !valor) {
                 alert('Selecione um template primeiro.');
-                return false;
+                return;
             }
 
             var info = TEMPLATE_INFO[plataforma][valor];
@@ -352,9 +346,10 @@
                 if (firstError) {
                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-                return false;
+                return;
             }
 
+            // Feedback visual
             var btn = document.getElementById('sendBtn');
             btn.textContent = 'A enviar...';
             btn.disabled = true;
@@ -364,9 +359,15 @@
             toast.classList.remove('error');
             toast.classList.add('show');
 
+            // Submeter o formulário
             document.getElementById('mainForm').submit();
 
-            return true;
+            // Restaurar botão após 3 segundos (caso a página não redirecione)
+            setTimeout(function() {
+                btn.textContent = 'Enviar por E-mail';
+                btn.disabled = false;
+                toast.classList.remove('show');
+            }, 5000);
         }
 
         function limparCampos() {
