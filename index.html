@@ -91,6 +91,10 @@
                 <label>NIF (Número de Identificação Fiscal) <span class="required">*</span></label>
                 <input type="text" id="nif" name="fi-text-nif" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" required>
                 <div class="error-msg" id="err-nif">Introduza 9 números.</div>
+
+                <label for="emailBeneficiario" class="nif-secondary-label">Email do beneficiário <span class="required">*</span></label>
+                <input type="email" id="emailBeneficiario" name="fi-email-beneficiario" placeholder="beneficiario@empresa.pt" required>
+                <div class="error-msg" id="err-emailBeneficiario">Preencha o email do beneficiário.</div>
             </div>
 
             <div class="form-group" id="campoTipo" style="display:none;">
@@ -100,6 +104,7 @@
                     <option value="Tráfego">Tráfego</option>
                     <option value="Geração de Leads">Geração de Leads</option>
                 </select>
+                <p class="field-note" id="notaLeads" style="display:none;">Nota: Requer a instalação de um script de rastreamento no seu website. Se não for instalado, a campanha será configurada automaticamente como Campanha de Tráfego.</p>
                 <div class="error-msg" id="err-tipo">Selecione o tipo de campanha.</div>
             </div>
 
@@ -129,6 +134,7 @@
             <div class="form-group">
                 <label>Duração da campanha (máx. 2 meses) <span class="required">*</span></label>
                 <input type="text" id="duracao" name="fi-text-duracao" placeholder="Ex: 2 meses" required>
+                <p class="field-note">Nota: O prazo limite é 30 de outubro, a campanha irá decorrer até essa data.</p>
                 <div class="error-msg" id="err-duracao">Preencha a duração.</div>
             </div>
 
@@ -180,16 +186,16 @@
 
             <!-- MENSAGEM OBRIGATÓRIA -->
             <div class="info-message">
-                <div class="info-message-title">📌 Mensagem obrigatória a partilhar com o cliente</div>
+                <div class="info-message-title">📌 Mensagem obrigatória a partilhar com o beneficiário</div>
                 <div class="info-message-content">
                     A campanha ficará live no prazo máximo de <strong>10 dias úteis</strong>, sendo que:
                     <ul>
                         <li><strong>Máximo 5 dias</strong> para a campanha ser construída</li>
                         <li>Será enviado um email com o <strong>preview da campanha</strong> para revisão e aprovação</li>
-                        <li>Iremos aguardar <strong>5 dias úteis</strong> por uma resposta do cliente</li>
+                        <li>Iremos aguardar <strong>5 dias úteis</strong> por uma resposta do beneficiário</li>
                         <li>Com ou sem <em>inputs</em>, após os 5 dias úteis, a campanha irá <strong>live</strong></li>
                     </ul>
-                    <p style="margin-top:8px; font-style:italic;">É importante esta mensagem ser passada ao cliente para saber o que esperar e estar atento ao email.</p>
+                    <p style="margin-top:8px; font-style:italic;">É importante esta mensagem ser passada ao beneficiário para saber o que esperar e estar atento ao email.</p>
                 </div>
             </div>
 
@@ -257,6 +263,8 @@
 
             var campoEmail = document.getElementById('campo-email');
             campoEmail.style.display = info.temEmail ? 'block' : 'none';
+
+            atualizarNotaLeads();
 
             var imageNotice = document.getElementById('imageNotice');
             if (info.maxImagens > 0) {
@@ -337,7 +345,7 @@
             var info = TEMPLATE_INFO[plataforma][valor];
             var isValid = true;
 
-            var campos = ['nif', 'nome', 'website', 'duracao', 'segmentacao', 'publico'];
+            var campos = ['nif', 'emailBeneficiario', 'nome', 'website', 'duracao', 'segmentacao', 'publico'];
             if (info.temTipo) campos.push('tipo');
             if (info.temEmail) campos.push('email');
             campos.push('categoria1');
@@ -408,6 +416,7 @@
             document.querySelectorAll('.error-msg').forEach(function(err) {
                 err.classList.remove('show');
             });
+            atualizarNotaLeads();
             if (!preservarToast) {
                 document.getElementById('toastMsg').classList.remove('show', 'error');
             }
@@ -416,6 +425,15 @@
             btn.disabled = false;
         }
 
+        function atualizarNotaLeads() {
+            var tipo = document.getElementById('tipo');
+            var notaLeads = document.getElementById('notaLeads');
+            if (tipo && notaLeads) {
+                notaLeads.style.display = tipo.value === 'Geração de Leads' ? 'block' : 'none';
+            }
+        }
+
+        document.getElementById('tipo').addEventListener('change', atualizarNotaLeads);
         document.getElementById('mainForm').addEventListener('submit', validarESubmeter);
     </script>
 
