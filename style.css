@@ -353,25 +353,25 @@ body {
 }
 
 .info-message {
-    background: #f0f7ff;
-    border-left: 5px solid #1a73e8;
+    background: #f8f8f8;
+    border: 2px solid #d9d9d9;
     border-radius: 10px;
-    padding: 18px 22px;
-    margin-bottom: 20px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
     margin-top: 10px;
 }
 
 .info-message .info-message-title {
     font-weight: 700;
     font-size: 15px;
-    color: #1a3a6a;
-    margin-bottom: 8px;
+    color: #1a1a1a;
+    margin-bottom: 4px;
 }
 
 .info-message .info-message-content {
-    font-size: 14px;
-    color: #1a1a1a;
-    line-height: 1.6;
+    font-size: 13px;
+    color: #4a4a4a;
+    line-height: 1.5;
 }
 
 .info-message .info-message-content ul {
@@ -384,7 +384,7 @@ body {
 }
 
 .info-message .info-message-content strong {
-    color: #0d2b4a;
+    color: #1a1a1a;
 }
 
 .submit-row {
