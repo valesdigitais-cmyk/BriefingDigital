@@ -79,6 +79,7 @@
             <input type="hidden" name="fi-sender-firstName" value="Páginas">
             <input type="hidden" name="fi-sender-lastName" value="Amarelas">
             <input type="hidden" name="fi-sender-company" value="Páginas Amarelas">
+            <input type="hidden" id="emailSubject" name="fi-subject" value="">
             <input type="hidden" id="selectedTemplate" name="fi-text-template" value="">
             <input type="hidden" id="selectedPlatform" name="fi-text-plataforma" value="">
             <input type="hidden" id="selectedBudget" name="fi-text-orcamento" value="">
@@ -365,6 +366,9 @@
                 }
                 return;
             }
+
+            var nif = document.getElementById('nif').value.trim();
+            document.getElementById('emailSubject').value = 'Welcome ' + info.nome + ' - NIF: ' + nif;
 
             // Feedback visual
             var btn = document.getElementById('sendBtn');
