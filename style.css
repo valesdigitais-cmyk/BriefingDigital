@@ -214,26 +214,6 @@ body {
     margin-bottom: 16px;
 }
 
-.form-alert {
-    padding: 12px 14px;
-    margin-bottom: 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.form-alert.success {
-    color: #065f46;
-    background: #d1fae5;
-    border: 1px solid #6ee7b7;
-}
-
-.form-alert.error {
-    color: #b91c1c;
-    background: #fee2e2;
-    border: 1px solid #fca5a5;
-}
-
 .form-group label {
     display: block;
     font-size: 14px;
@@ -335,7 +315,6 @@ body {
     background: #ffffff;
 }
 
-/* Estilo para os avisos (imagens e mensagem obrigatória) */
 .image-notice {
     background: #f8f8f8;
     border: 2px solid #d9d9d9;
@@ -361,17 +340,39 @@ body {
     color: #1a1a1a;
 }
 
-.image-notice .notice-text ul {
+.info-message {
+    background: #f0f7ff;
+    border-left: 5px solid #1a73e8;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.info-message .info-message-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #1a3a6a;
+    margin-bottom: 8px;
+}
+
+.info-message .info-message-content {
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+.info-message .info-message-content ul {
     margin: 6px 0 4px 20px;
     padding: 0;
 }
 
-.image-notice .notice-text ul li {
+.info-message .info-message-content ul li {
     margin-bottom: 2px;
 }
 
-.image-notice .notice-text em {
-    font-style: italic;
+.info-message .info-message-content strong {
+    color: #0d2b4a;
 }
 
 .submit-row {
@@ -425,17 +426,51 @@ body {
     border-color: #b0b0b0;
 }
 
+.toast-message {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2e7d32;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.toast-message.show {
+    opacity: 1;
+}
+
+.toast-message.error {
+    color: #cc0000;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 @media (max-width: 640px) {
     body { padding: 16px 12px; }
     #form-container { padding: 20px 16px; }
     .template-selector { grid-template-columns: 1fr 1fr; }
     .submit-row { flex-direction: column; align-items: stretch; }
     .btn-send { width: 100%; justify-content: center; }
+    .toast-message { margin-left: 0; text-align: center; }
     .btn-back { width: 100%; text-align: center; }
     .form-header-top { flex-direction: column; }
     .header .logo-bar { flex-direction: column; }
-    .image-notice { padding: 14px 16px; }
-    .image-notice .notice-text ul { margin-left: 16px; }
+    .info-message { padding: 14px 16px; }
+    .info-message .info-message-content ul { margin-left: 16px; }
 }
 
 @media (max-width: 420px) {
