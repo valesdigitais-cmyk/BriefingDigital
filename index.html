@@ -23,7 +23,6 @@
             display: block;
         }
 
-        /* Garantir que a nota da duração fica vermelha */
         .duracao-nota {
             color: #cc0000;
             font-weight: 500;
@@ -36,7 +35,44 @@
         }
 
         /* ================================================================ */
-        /* ESTILOS EXISTENTES (mantidos do style.css)                     */
+        /* BOTÃO COPIAR DISCRETO                                           */
+        /* ================================================================ */
+        .copy-btn {
+            background: none;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: #666666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Google Sans', Arial, sans-serif;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .copy-btn:hover {
+            background: #f0f0f0;
+            border-color: #1a1a1a;
+            color: #1a1a1a;
+        }
+
+        .copy-btn.copied {
+            border-color: #2e7d32;
+            color: #2e7d32;
+            background: #e8f5e9;
+        }
+
+        .copy-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: -8px;
+            margin-bottom: 8px;
+        }
+
+        /* ================================================================ */
+        /* ESTILOS EXISTENTES (mantidos)                                   */
         /* ================================================================ */
         * {
             margin: 0;
@@ -499,6 +535,18 @@
             color: #cc0000;
         }
 
+        .copy-toast {
+            font-size: 12px;
+            color: #2e7d32;
+            margin-left: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-toast.show {
+            opacity: 1;
+        }
+
         @media (max-width: 640px) {
             body { padding: 16px 12px; }
             #form-container { padding: 20px 16px; }
@@ -511,6 +559,7 @@
             .header .logo-bar { flex-direction: column; }
             .info-message { padding: 14px 16px; }
             .info-message .info-message-content ul { margin-left: 16px; }
+            .copy-section { justify-content: flex-start; margin-top: 4px; }
         }
 
         @media (max-width: 420px) {
@@ -637,9 +686,10 @@
                 <div class="error-msg" id="err-email">Preencha o e-mail administrador.</div>
             </div>
 
+            <!-- CAMPO CONTACTO SEM VALIDAÇÃO -->
             <div class="form-group">
                 <label>Número de contacto <span class="optional">(opcional)</span></label>
-                <input type="text" id="contacto" name="fi-phone-contacto" placeholder="+351912345678">
+                <input type="text" id="contacto" name="fi-phone-contacto" placeholder="Ex: 912345678">
             </div>
 
             <!-- DURAÇÃO COM NOTA VERMELHA -->
@@ -709,6 +759,12 @@
                     </ul>
                     <p style="margin-top:8px; font-style:italic;">É importante esta mensagem ser passada ao beneficiário para saber o que esperar e estar atento ao email.</p>
                 </div>
+            </div>
+
+            <!-- BOTÃO COPIAR DISCRETO -->
+            <div class="copy-section">
+                <button type="button" class="copy-btn" id="copyDataBtn" onclick="copiarDados()">📋 Copiar dados</button>
+                <span class="copy-toast" id="copyToast">Copiado!</span>
             </div>
 
             <div class="submit-row">
@@ -840,6 +896,150 @@
         }
 
         // ================================================================
+        // COPIAR DADOS
+        // ================================================================
+        function copiarDados() {
+            var info = TEMPLATE_INFO[templateAtual.plataforma]?.[templateAtual.valor];
+            if (!info) {
+                alert('Selecione um template primeiro.');
+                return;
+            }
+
+            // Recolher valores
+            var dados = {
+                nif: document.getElementById('nif').value.trim(),
+                emailBeneficiario: document.getElementById('emailBeneficiario').value.trim(),
+                tipo: document.getElementById('tipo').value,
+                nome: document.getElementById('nome').value.trim(),
+                website: document.getElementById('website').value.trim(),
+                contacto: document.getElementById('contacto').value.trim(),
+                duracao: document.getElementById('duracao').value.trim(),
+                segmentacao: document.getElementById('segmentacao').value.trim(),
+                publico: document.getElementById('publico').value.trim(),
+                observacoes: document.getElementById('observacoes').value.trim(),
+                categorias: []
+            };
+
+            // Recolher categorias preenchidas
+            var grupos = document.querySelectorAll('.categoria-group');
+            grupos.forEach(function(group) {
+                if (group.style.display !== 'none') {
+                    var textarea = group.querySelector('textarea');
+                    if (textarea) {
+                        var value = textarea.value.trim();
+                        if (value) {
+                            dados.categorias.push(value);
+                        }
+                    }
+                }
+            });
+
+            // Validar campos obrigatórios para cópia
+            if (!dados.nif || !dados.emailBeneficiario || !dados.nome || !dados.website || !dados.duracao || !dados.segmentacao || !dados.publico || dados.categorias.length === 0) {
+                alert('Preencha todos os campos obrigatórios antes de copiar.');
+                return;
+            }
+
+            // Construir texto formatado
+            var linha = '────────────────────────────────────────────';
+            var texto = 'WELCOME ' + info.nome.toUpperCase() + '\n';
+            texto += '════════════════════════════════════════════\n\n';
+
+            texto += 'NIF                 : ' + dados.nif + '\n';
+            texto += 'Email beneficiário  : ' + dados.emailBeneficiario + '\n';
+
+            if (info.temTipo) {
+                texto += 'Tipo de campanha    : ' + dados.tipo + '\n';
+            }
+
+            texto += 'Nome comercial      : ' + dados.nome + '\n';
+            texto += 'Website/redes       : ' + dados.website + '\n';
+
+            if (dados.contacto) {
+                texto += 'Contacto            : ' + dados.contacto + '\n';
+            }
+
+            texto += linha + '\n';
+            texto += 'Duração             : ' + dados.duracao + '\n';
+            texto += 'Segmentação         : ' + dados.segmentacao + '\n';
+            texto += 'Público-alvo        : ' + dados.publico + '\n';
+
+            dados.categorias.forEach(function(cat, i) {
+                var label = 'Categoria ' + (i + 1);
+                var spaces = ' '.repeat(12 - label.length);
+                texto += label + spaces + ': ' + cat + '\n';
+            });
+
+            texto += linha + '\n';
+            texto += 'Anúncios            : ' + info.anuncios + '\n';
+            texto += 'Categorias          : ' + info.categorias + '\n';
+
+            if (dados.observacoes) {
+                texto += linha + '\n';
+                texto += 'OBSERVAÇÕES\n';
+                texto += dados.observacoes + '\n';
+            }
+
+            texto += '\n════════════════════════════════════════════';
+            texto += '\nCopiado via Welcomes · Páginas Amarelas';
+
+            // Copiar para clipboard
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(texto)
+                    .then(function() {
+                        mostrarFeedbackCopia(true);
+                    })
+                    .catch(function() {
+                        copiarFallback(texto);
+                    });
+            } else {
+                copiarFallback(texto);
+            }
+        }
+
+        function copiarFallback(texto) {
+            var textarea = document.createElement('textarea');
+            textarea.value = texto;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                mostrarFeedbackCopia(true);
+            } catch (e) {
+                alert('Não foi possível copiar. Tente selecionar o texto manualmente.');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function mostrarFeedbackCopia(sucesso) {
+            var btn = document.getElementById('copyDataBtn');
+            var toast = document.getElementById('copyToast');
+
+            if (sucesso) {
+                btn.classList.add('copied');
+                btn.textContent = '✓ Copiado!';
+                toast.textContent = 'Copiado!';
+                toast.classList.add('show');
+                setTimeout(function() {
+                    btn.classList.remove('copied');
+                    btn.textContent = '📋 Copiar dados';
+                    toast.classList.remove('show');
+                }, 3000);
+            } else {
+                toast.textContent = 'Erro ao copiar';
+                toast.style.color = '#cc0000';
+                toast.classList.add('show');
+                setTimeout(function() {
+                    toast.classList.remove('show');
+                    toast.style.color = '#2e7d32';
+                }, 3000);
+            }
+        }
+
+        // ================================================================
         // VALIDAR E SUBMETER
         // ================================================================
         async function validarESubmeter(event) {
@@ -890,7 +1090,6 @@
             var nif = document.getElementById('nif').value.trim();
             document.getElementById('emailSubject').value = 'Welcome ' + info.nome + ' - NIF: ' + nif;
 
-            // Feedback visual
             var btn = document.getElementById('sendBtn');
             btn.textContent = 'A enviar...';
             btn.disabled = true;
