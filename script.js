@@ -169,7 +169,7 @@ function copiarDados() {
     if (info.temTipo) texto += 'Tipo de campanha    : ' + dados.tipo + '\n';
     texto += 'Nome comercial      : ' + dados.nome + '\n';
     texto += 'Website/redes       : ' + dados.website + '\n';
-    if (dados.contacto) texto += 'Contacto            : ' + dados.contacto + '\n';
+    if (dados.contacto && dados.contacto !== '+351') texto += 'Contacto            : ' + dados.contacto + '\n';
 
     texto += linha + '\n';
     texto += 'Duração             : ' + dados.duracao + '\n';
@@ -322,6 +322,11 @@ function limparCampos(preservarToast) {
         input.value = '';
         input.classList.remove('error');
     });
+
+    // Repor prefixo do contacto
+    var contacto = $('contacto');
+    if (contacto) contacto.value = '+351 ';
+
     document.querySelectorAll('.error-msg').forEach(function (err) {
         err.classList.remove('show');
     });
@@ -348,13 +353,46 @@ function atualizarNotaLeads() {
 }
 
 /* ============================================================
-   NORMALIZAÇÃO AUTOMÁTICA DE WEBSITE
+   NORMALIZAÇÃO: CONTACTO (prefixo +351)
    ============================================================ */
-function normalizarWebsite() {
+function normalizarContacto() {
+    var input = $('contacto');
+    if (!input) return;
+
+    var val = input.value.trim();
+
+    // Vazio ou só prefixo
+    if (!val || val === '+351' || val === '+351 ') {
+        input.value = '+351 ';
+        return;
+    }
+
+    // Extrair apenas dígitos
+    var digits = val.replace(/\D/g, '');
+
+    // Se começa por 351 (com ou sem +), remove para tratar o resto
+    if (digits.startsWith('351')) {
+        digits = digits.slice(3);
+    }
+
+    // Manter apenas os 9 dígitos nacionais
+    digits = digits.slice(0, 9);
+
+    input.value = '+351 ' + digits;
+}
+
+/* ============================================================
+   NORMALIZAÇÃO: WEBSITE (prefixo https://)
+   ============================================================ */
+function normalizarWebsiteCompleto() {
     var input = $('website');
     if (!input) return;
+
     var val = input.value.trim();
-    if (val && !/^https?:\/\//i.test(val)) {
+    if (!val) return;
+
+    // Se não tem protocolo, adiciona https://
+    if (!/^https?:\/\//i.test(val)) {
         if (val.includes('.') && !val.includes(' ')) {
             input.value = 'https://' + val;
         }
@@ -371,6 +409,20 @@ document.addEventListener('DOMContentLoaded', function () {
     var form = $('mainForm');
     if (form) form.addEventListener('submit', validarESubmeter);
 
+    // Contacto: normalização
+    var contacto = $('contacto');
+    if (contacto) {
+        // Se o user apagar tudo ou só deixar +, repor prefixo
+        contacto.addEventListener('input', function () {
+            var v = this.value;
+            if (v === '' || v === '+') {
+                this.value = '+351 ';
+            }
+        });
+        contacto.addEventListener('blur', normalizarContacto);
+    }
+
+    // Website: normalização
     var website = $('website');
-    if (website) website.addEventListener('blur', normalizarWebsite);
+    if (website) website.addEventListener('blur', normalizarWebsiteCompleto);
 });
