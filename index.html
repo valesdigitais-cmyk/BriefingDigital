@@ -3,1171 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcomes</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Páginas Amarelas · Welcomes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* ================================================================ */
-        /* ESTILOS ADICIONAIS PARA NOTAS A VERMELHO                       */
-        /* ================================================================ */
-        .field-note.important {
-            color: #cc0000;
-            font-weight: 500;
-        }
-
-        .field-note.important strong {
-            color: #cc0000;
-        }
-
-        .error-msg.visible {
-            display: block;
-        }
-
-        .duracao-nota {
-            color: #cc0000;
-            font-weight: 500;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        .duracao-nota strong {
-            color: #cc0000;
-        }
-
-        /* ================================================================ */
-        /* BOTÃO COPIAR DISCRETO                                           */
-        /* ================================================================ */
-        .copy-btn {
-            background: none;
-            border: 1px solid #d9d9d9;
-            border-radius: 6px;
-            padding: 4px 12px;
-            font-size: 12px;
-            color: #666666;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Google Sans', Arial, sans-serif;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-
-        .copy-btn:hover {
-            background: #f0f0f0;
-            border-color: #1a1a1a;
-            color: #1a1a1a;
-        }
-
-        .copy-btn.copied {
-            border-color: #2e7d32;
-            color: #2e7d32;
-            background: #e8f5e9;
-        }
-
-        .copy-section {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: -8px;
-            margin-bottom: 8px;
-        }
-
-        /* ================================================================ */
-        /* ESTILOS EXISTENTES (mantidos)                                   */
-        /* ================================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Google Sans', Arial, sans-serif;
-        }
-
-        body {
-            background: #f5f5f5;
-            min-height: 100vh;
-            padding: 30px 20px;
-            color: #1a1a1a;
-            max-width: 920px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .header .logo-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 6px;
-        }
-
-        .header .logo-bar .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a1a;
-            letter-spacing: -0.5px;
-        }
-
-        .header h1 .highlight {
-            color: #1a1a1a;
-        }
-
-        .header p {
-            color: #666666;
-            font-size: 15px;
-            margin-top: 4px;
-        }
-
-        .template-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 14px;
-            margin-bottom: 32px;
-        }
-
-        .template-card {
-            background: #ffffff;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 18px 14px 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-            position: relative;
-        }
-
-        .template-card:hover {
-            border-color: #1a1a1a;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.10);
-        }
-
-        .template-card.active {
-            border-color: #1a1a1a;
-            background: #f0f0f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .template-card .template-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .template-card .template-sub {
-            font-size: 13px;
-            color: #666666;
-            margin-top: 4px;
-        }
-
-        .template-card .template-badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 2px 12px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #1a1a1a;
-            background: #e8e8e8;
-            border-radius: 20px;
-        }
-
-        .template-card .check-mark {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #1a1a1a;
-            color: #ffffff;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .template-card.active .check-mark {
-            display: flex;
-        }
-
-        #form-container {
-            display: none;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 32px 36px 36px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 2px solid #d9d9d9;
-        }
-
-        #form-container.show {
-            display: block;
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-header {
-            margin-bottom: 24px;
-            padding-bottom: 18px;
-            border-bottom: 2px solid #e8e8e8;
-        }
-
-        .form-header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .form-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .form-header h2 .highlight {
-            color: #1a1a1a;
-        }
-
-        .form-header p {
-            color: #666666;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-
-        .form-header .badge-info {
-            display: inline-block;
-            padding: 4px 14px;
-            background: #e8e8e8;
-            color: #1a1a1a;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .btn-back {
-            padding: 8px 18px;
-            background: transparent;
-            color: #1a1a1a;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 16px;
-        }
-
-        .btn-back:hover {
-            background: #e8e8e8;
-            border-color: #1a1a1a;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #1a1a1a;
-            margin-bottom: 5px;
-        }
-
-        .form-group label .required {
-            color: #cc0000;
-            margin-left: 2px;
-        }
-
-        .form-group label .optional {
-            color: #999999;
-            font-weight: 400;
-            font-size: 12px;
-            margin-left: 4px;
-        }
-
-        .form-group label .category-label {
-            font-size: 13px;
-            font-weight: 400;
-            color: #666666;
-            margin-left: 6px;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="url"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 11px 16px;
-            font-size: 14px;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            background: #fafafa;
-            color: #1a1a1a;
-            transition: all 0.25s ease;
-            outline: none;
-            font-family: 'Google Sans', Arial, sans-serif;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #1a1a1a;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(0,0,0,0.06);
-        }
-
-        .form-group input.error,
-        .form-group select.error,
-        .form-group textarea.error {
-            border-color: #cc0000;
-            box-shadow: 0 0 0 4px rgba(204, 0, 0, 0.08);
-            background: #fff8f8;
-        }
-
-        .form-group .error-msg {
-            font-size: 12px;
-            color: #cc0000;
-            margin-top: 4px;
-            display: none;
-            font-weight: 500;
-        }
-
-        .form-group .error-msg.show {
-            display: block;
-        }
-
-        .form-group textarea {
-            min-height: 60px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        .nif-highlight {
-            background: #f8f8f8;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 16px 18px;
-            margin-bottom: 16px;
-        }
-
-        .nif-highlight label {
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .nif-highlight input {
-            background: #ffffff;
-            border-color: #d9d9d9;
-        }
-
-        .nif-highlight input:focus {
-            border-color: #1a1a1a;
-            background: #ffffff;
-        }
-
-        .nif-secondary-label {
-            margin-top: 12px;
-        }
-
-        .image-notice {
-            background: #f8f8f8;
-            border: 2px solid #d9d9d9;
-            border-radius: 10px;
-            padding: 14px 20px;
-            margin-bottom: 16px;
-        }
-
-        .image-notice .notice-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: #1a1a1a;
-        }
-
-        .image-notice .notice-text {
-            font-size: 13px;
-            color: #4a4a4a;
-            margin-top: 4px;
-            line-height: 1.5;
-        }
-
-        .image-notice .notice-text strong {
-            color: #1a1a1a;
-        }
-
-        .info-message {
-            background: #f0f7ff;
-            border-left: 5px solid #1a73e8;
-            border-radius: 10px;
-            padding: 18px 22px;
-            margin-bottom: 20px;
-            margin-top: 10px;
-        }
-
-        .info-message .info-message-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: #1a3a6a;
-            margin-bottom: 8px;
-        }
-
-        .info-message .info-message-content {
-            font-size: 14px;
-            color: #1a1a1a;
-            line-height: 1.6;
-        }
-
-        .info-message .info-message-content ul {
-            margin: 6px 0 4px 20px;
-            padding: 0;
-        }
-
-        .info-message .info-message-content ul li {
-            margin-bottom: 2px;
-        }
-
-        .info-message .info-message-content strong {
-            color: #0d2b4a;
-        }
-
-        .field-note {
-            font-size: 13px;
-            color: #666666;
-            margin-top: 4px;
-            font-style: italic;
-        }
-
-        .field-note.important {
-            color: #cc0000;
-            font-weight: 500;
-        }
-
-        .submit-row {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn-send {
-            padding: 13px 44px;
-            background: #1a1a1a;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn-send:hover {
-            background: #333333;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.20);
-        }
-
-        .btn-send:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-reset {
-            padding: 13px 28px;
-            background: transparent;
-            color: #666666;
-            border: 2px solid #d9d9d9;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-reset:hover {
-            background: #f0f0f0;
-            border-color: #b0b0b0;
-        }
-
-        .toast-message {
-            margin-left: auto;
-            font-size: 14px;
-            font-weight: 600;
-            color: #2e7d32;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .toast-message.show {
-            opacity: 1;
-        }
-
-        .toast-message.error {
-            color: #cc0000;
-        }
-
-        .copy-toast {
-            font-size: 12px;
-            color: #2e7d32;
-            margin-left: 8px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .copy-toast.show {
-            opacity: 1;
-        }
-
-        @media (max-width: 640px) {
-            body { padding: 16px 12px; }
-            #form-container { padding: 20px 16px; }
-            .template-selector { grid-template-columns: 1fr 1fr; }
-            .submit-row { flex-direction: column; align-items: stretch; }
-            .btn-send { width: 100%; justify-content: center; }
-            .toast-message { margin-left: 0; text-align: center; }
-            .btn-back { width: 100%; text-align: center; }
-            .form-header-top { flex-direction: column; }
-            .header .logo-bar { flex-direction: column; }
-            .info-message { padding: 14px 16px; }
-            .info-message .info-message-content ul { margin-left: 16px; }
-            .copy-section { justify-content: flex-start; margin-top: 4px; }
-        }
-
-        @media (max-width: 420px) {
-            .template-selector { grid-template-columns: 1fr; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Ativar modo noturno">
+        <span class="theme-icon">🌙</span>
+        <span class="theme-label">Modo noturno</span>
+    </button>
 
-    <div class="header">
-        <div class="logo-bar">
-            <div class="logo-icon">PA</div>
-            <h1><span class="highlight">Páginas Amarelas</span> · Welcomes</h1>
-        </div>
-        <p>Selecione um template, preencha os dados e envie por e-mail.</p>
-    </div>
+    <div class="page-wrapper">
 
-    <div id="templateSelector" class="template-selector">
-        <div class="template-card" onclick="selecionarTemplate('google', '500')">
-            <div class="check-mark">✓</div>
-            <div class="template-title">Google 500€</div>
-            <div class="template-sub">5 anúncios · 2 categorias</div>
-            <span class="template-badge">Google</span>
-        </div>
-        <div class="template-card" onclick="selecionarTemplate('google', '1000')">
-            <div class="check-mark">✓</div>
-            <div class="template-title">Google 1000€</div>
-            <div class="template-sub">8 anúncios · 3 categorias</div>
-            <span class="template-badge">Google</span>
-        </div>
-        <div class="template-card" onclick="selecionarTemplate('google', '1500')">
-            <div class="check-mark">✓</div>
-            <div class="template-title">Google 1500€+</div>
-            <div class="template-sub">12 anúncios · 4 categorias</div>
-            <span class="template-badge">Google</span>
-        </div>
-        <div class="template-card" onclick="selecionarTemplate('meta', '500')">
-            <div class="check-mark">✓</div>
-            <div class="template-title">Meta 500€</div>
-            <div class="template-sub">5 anúncios · 2 categorias</div>
-            <span class="template-badge">Meta</span>
-        </div>
-        <div class="template-card" onclick="selecionarTemplate('meta', '1000')">
-            <div class="check-mark">✓</div>
-            <div class="template-title">Meta 1000€</div>
-            <div class="template-sub">8 anúncios · 3 categorias</div>
-            <span class="template-badge">Meta</span>
-        </div>
-        <div class="template-card" onclick="selecionarTemplate('meta', '1500')">
-            <div class="check-mark">✓</div>
-            <div class="template-title">Meta 1500€+</div>
-            <div class="template-sub">12 anúncios · 4 categorias</div>
-            <span class="template-badge">Meta</span>
-        </div>
-    </div>
-
-    <div id="form-container">
-        <button class="btn-back" onclick="voltarSelecao()">← Voltar aos templates</button>
-
-        <div class="form-header">
-            <div class="form-header-top">
-                <div>
-                    <h2>Welcome <span class="highlight" id="formTitle">Google 500€</span></h2>
-                    <p id="formSub">Preencha os campos e clique em «Enviar por E-mail».</p>
+        <!-- ============================================================
+             HEADER
+             ============================================================ -->
+        <header class="page-header">
+            <div class="brand">
+                <div class="brand-mark">PA</div>
+                <div class="brand-text">
+                    <h1>Páginas Amarelas</h1>
+                    <p>Welcomes · Gerador de formulários</p>
                 </div>
+            </div>
+            <p class="page-description">
+                Selecione um template, preencha os dados do beneficiário e envie diretamente por e-mail.
+            </p>
+        </header>
+
+        <!-- ============================================================
+             TEMPLATE SELECTOR
+             ============================================================ -->
+        <section class="section" id="step-1">
+            <div class="section-heading">
+                <span class="step-badge">1</span>
+                <div>
+                    <h2>Escolha o template</h2>
+                    <p class="section-sub">Selecione a plataforma e o orçamento da campanha.</p>
+                </div>
+            </div>
+
+            <div id="templateSelector" class="template-selector">
+                <div class="template-group">
+                    <div class="template-group-header">
+                        <span class="template-group-icon">G</span>
+                        <h3 class="template-group-title">Google Ads</h3>
+                    </div>
+                    <div class="template-group-grid">
+                        <div class="template-card" data-platform="google" data-budget="500" onclick="selecionarTemplate('google', '500')">
+                            <div class="check-mark">✓</div>
+                            <div class="template-title">500€</div>
+                            <div class="template-sub">5 anúncios · 2 categorias</div>
+                        </div>
+                        <div class="template-card" data-platform="google" data-budget="1000" onclick="selecionarTemplate('google', '1000')">
+                            <div class="check-mark">✓</div>
+                            <div class="template-title">1000€</div>
+                            <div class="template-sub">8 anúncios · 3 categorias</div>
+                        </div>
+                        <div class="template-card" data-platform="google" data-budget="1500" onclick="selecionarTemplate('google', '1500')">
+                            <div class="check-mark">✓</div>
+                            <div class="template-title">1500€+</div>
+                            <div class="template-sub">12 anúncios · 4 categorias</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="template-group">
+                    <div class="template-group-header">
+                        <span class="template-group-icon">M</span>
+                        <h3 class="template-group-title">Meta Ads</h3>
+                    </div>
+                    <div class="template-group-grid">
+                        <div class="template-card" data-platform="meta" data-budget="500" onclick="selecionarTemplate('meta', '500')">
+                            <div class="check-mark">✓</div>
+                            <div class="template-title">500€</div>
+                            <div class="template-sub">5 anúncios · 2 categorias</div>
+                        </div>
+                        <div class="template-card" data-platform="meta" data-budget="1000" onclick="selecionarTemplate('meta', '1000')">
+                            <div class="check-mark">✓</div>
+                            <div class="template-title">1000€</div>
+                            <div class="template-sub">8 anúncios · 3 categorias</div>
+                        </div>
+                        <div class="template-card" data-platform="meta" data-budget="1500" onclick="selecionarTemplate('meta', '1500')">
+                            <div class="check-mark">✓</div>
+                            <div class="template-title">1500€+</div>
+                            <div class="template-sub">12 anúncios · 4 categorias</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             FORM CONTAINER
+             ============================================================ -->
+        <section id="form-container" class="form-section">
+
+            <div class="form-toolbar">
+                <button class="btn btn-ghost" onclick="voltarSelecao()">
+                    <span aria-hidden="true">←</span> Voltar aos templates
+                </button>
                 <span class="badge-info" id="formBadge">5 anúncios · 2 categorias</span>
             </div>
-        </div>
 
-        <!-- ========================================================= -->
-        <!-- FORMULÁRIO COM FORMINIT                                   -->
-        <!-- ========================================================= -->
-        <form id="mainForm" method="POST" novalidate>
-
-            <!-- SENDER BLOCK -->
-            <input type="hidden" name="fi-sender-email" value="valesdigitais@leadzai.com">
-            <input type="hidden" name="fi-sender-firstName" value="Páginas">
-            <input type="hidden" name="fi-sender-lastName" value="Amarelas">
-            <input type="hidden" name="fi-sender-company" value="Páginas Amarelas">
-            <input type="hidden" id="emailSubject" name="fi-subject" value="">
-            <input type="hidden" id="selectedTemplate" name="fi-text-template" value="">
-            <input type="hidden" id="selectedPlatform" name="fi-text-plataforma" value="">
-            <input type="hidden" id="selectedBudget" name="fi-text-orcamento" value="">
-            <input type="hidden" id="selectedAds" name="fi-number-anuncios" value="">
-            <input type="hidden" id="selectedCategories" name="fi-number-categorias" value="">
-
-            <!-- CAMPOS DO FORMULÁRIO -->
-            <div class="form-group nif-highlight">
-                <label>NIF (Número de Identificação Fiscal) <span class="required">*</span></label>
-                <input type="text" id="nif" name="fi-text-nif" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" required>
-                <div class="error-msg" id="err-nif">Introduza 9 números.</div>
-
-                <label for="emailBeneficiario" class="nif-secondary-label">Email do beneficiário <span class="required">*</span></label>
-                <input type="email" id="emailBeneficiario" name="fi-email-beneficiario" placeholder="beneficiario@empresa.pt" required>
-                <div class="error-msg" id="err-emailBeneficiario">Preencha o email do beneficiário.</div>
-            </div>
-
-            <div class="form-group" id="campoTipo" style="display:none;">
-                <label>Tipo de campanha <span class="required">*</span></label>
-                <select id="tipo" name="fi-select-tipo">
-                    <option value="">Selecione...</option>
-                    <option value="Tráfego">Tráfego</option>
-                    <option value="Geração de Leads">Geração de Leads</option>
-                </select>
-                <p class="field-note" id="notaLeads" style="display:none;">Nota: Requer a instalação de um script de rastreamento no seu website. Se não for instalado, a campanha será configurada automaticamente como Campanha de Tráfego.</p>
-                <div class="error-msg" id="err-tipo">Selecione o tipo de campanha.</div>
-            </div>
-
-            <div class="form-group">
-                <label>Nome comercial <span class="required">*</span></label>
-                <input type="text" id="nome" name="fi-text-nome" required>
-                <div class="error-msg" id="err-nome">Preencha o nome comercial.</div>
-            </div>
-
-            <!-- CAMPO WEBSITE AGORA FLEXÍVEL -->
-            <div class="form-group">
-                <label>Link do website/redes <span class="required">*</span></label>
-                <input type="text" id="website" name="fi-url-website" placeholder="www.exemplo.pt, facebook.com/empresa, etc." required>
-                <div class="error-msg" id="err-website">Preencha o link do website/redes.</div>
-            </div>
-
-            <div class="form-group" id="campo-email" style="display:none;">
-                <label>E-mail administrador/owner da página <span class="required">*</span></label>
-                <input type="email" id="email" name="fi-email-admin" placeholder="admin@empresa.pt" required>
-                <div class="error-msg" id="err-email">Preencha o e-mail administrador.</div>
-            </div>
-
-            <!-- CAMPO CONTACTO SEM VALIDAÇÃO (melhorado) -->
-            <div class="form-group">
-                <label>Número de contacto <span class="optional">(opcional)</span></label>
-                <input type="text" id="contacto" name="fi-phone-contacto" placeholder="912345678 ou +351 912 345 678" inputmode="tel">
-            </div>
-
-            <!-- DURAÇÃO COM NOTA VERMELHA -->
-            <div class="form-group">
-                <label>Duração da campanha (data limite 31/10) <span class="required">*</span></label>
-                <input type="text" id="duracao" name="fi-text-duracao" placeholder="Ex: Antes de 31 de outubro" required>
-                <p class="field-note important" id="duracaoNota">Nota: O prazo limite é <strong>31 de outubro</strong>, a campanha irá decorrer até essa data.</p>
-                <div class="error-msg" id="err-duracao">Preencha a duração.</div>
-            </div>
-
-            <div class="form-group">
-                <label>Segmentação geográfica <span class="required">*</span></label>
-                <input type="text" id="segmentacao" name="fi-text-segmentacao" placeholder="Ex: Portugal" required>
-                <div class="error-msg" id="err-segmentacao">Preencha a segmentação.</div>
-            </div>
-
-            <div class="form-group">
-                <label>Público-alvo (idade, sexo, interesses) <span class="required">*</span></label>
-                <textarea id="publico" name="fi-text-publico" rows="3" placeholder="Ex: 25-45 anos, ambos os sexos, interessados em tecnologia" required></textarea>
-                <div class="error-msg" id="err-publico">Preencha o público-alvo.</div>
-            </div>
-
-            <div id="categorias-container">
-                <div class="form-group categoria-group" data-categoria="1">
-                    <label>Categoria 1 <span class="required">*</span> <span class="category-label">(produto/serviço a destacar)</span></label>
-                    <textarea id="categoria1" name="fi-text-categoria1" rows="2" placeholder="Ex: Serviço de consultoria"></textarea>
-                    <div class="error-msg" id="err-categoria1">Preencha pelo menos uma categoria.</div>
-                </div>
-                <div class="form-group categoria-group" data-categoria="2" style="display:none;">
-                    <label>Categoria 2 <span class="category-label">(produto/serviço a destacar)</span></label>
-                    <textarea id="categoria2" name="fi-text-categoria2" rows="2" placeholder="Ex: Formação empresarial"></textarea>
-                </div>
-                <div class="form-group categoria-group" data-categoria="3" style="display:none;">
-                    <label>Categoria 3 <span class="category-label">(produto/serviço a destacar)</span></label>
-                    <textarea id="categoria3" name="fi-text-categoria3" rows="2" placeholder="Ex: Marketing digital"></textarea>
-                </div>
-                <div class="form-group categoria-group" data-categoria="4" style="display:none;">
-                    <label>Categoria 4 <span class="category-label">(produto/serviço a destacar)</span></label>
-                    <textarea id="categoria4" name="fi-text-categoria4" rows="2" placeholder="Ex: Design gráfico"></textarea>
+            <div class="form-header">
+                <div class="form-header-icon" id="formPlatformIcon">G</div>
+                <div>
+                    <h2>Welcome <span class="highlight" id="formTitle">Google 500€</span></h2>
+                    <p id="formSub">Preencha os campos abaixo. Todos os campos marcados com <span class="required">*</span> são obrigatórios.</p>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Observações <span class="optional">(opcional)</span></label>
-                <textarea id="observacoes" name="fi-text-observacoes" rows="3" placeholder="Informações adicionais relevantes..."></textarea>
-            </div>
+            <form id="mainForm" method="POST" novalidate>
 
-            <!-- AVISO DE IMAGENS -->
-            <div class="image-notice" id="imageNotice" style="display:none;">
-                <div class="notice-title">Envio de Imagens</div>
-                <div class="notice-text">
-                    As imagens devem ser enviadas por e-mail em anexo.<br>
-                    Formatos permitidos: <strong>PNG, JPG</strong> · Máximo: <strong id="maxImagensTexto">5</strong> imagens · Máx. <strong>5MB</strong> cada.
+                <!-- SENDER BLOCK -->
+                <input type="hidden" name="fi-sender-email" value="valesdigitais@leadzai.com">
+                <input type="hidden" name="fi-sender-firstName" value="Páginas">
+                <input type="hidden" name="fi-sender-lastName" value="Amarelas">
+                <input type="hidden" name="fi-sender-company" value="Páginas Amarelas">
+                <input type="hidden" id="emailSubject" name="fi-subject" value="">
+                <input type="hidden" id="selectedTemplate" name="fi-text-template" value="">
+                <input type="hidden" id="selectedPlatform" name="fi-text-plataforma" value="">
+                <input type="hidden" id="selectedBudget" name="fi-text-orcamento" value="">
+                <input type="hidden" id="selectedAds" name="fi-number-anuncios" value="">
+                <input type="hidden" id="selectedCategories" name="fi-number-categorias" value="">
+
+                <!-- ============================================= -->
+                <!-- SECÇÃO: DADOS DO BENEFICIÁRIO                  -->
+                <!-- ============================================= -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Dados do beneficiário</legend>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nif">NIF <span class="required">*</span></label>
+                            <input type="text" id="nif" name="fi-text-nif" placeholder="123456789" maxlength="9" pattern="[0-9]{9}" required autocomplete="off">
+                            <div class="error-msg" id="err-nif">Introduza 9 números.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="emailBeneficiario">Email do beneficiário <span class="required">*</span></label>
+                            <input type="email" id="emailBeneficiario" name="fi-email-beneficiario" placeholder="beneficiario@empresa.pt" required autocomplete="email">
+                            <div class="error-msg" id="err-emailBeneficiario">Preencha o email do beneficiário.</div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ============================================= -->
+                <!-- SECÇÃO: DADOS DA CAMPANHA                      -->
+                <!-- ============================================= -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Dados da campanha</legend>
+
+                    <div class="form-group" id="campoTipo" style="display:none;">
+                        <label for="tipo">Tipo de campanha <span class="required">*</span></label>
+                        <select id="tipo" name="fi-select-tipo">
+                            <option value="">Selecione...</option>
+                            <option value="Tráfego">Tráfego</option>
+                            <option value="Geração de Leads">Geração de Leads</option>
+                        </select>
+                        <p class="field-note" id="notaLeads" style="display:none;">
+                            Nota: Requer a instalação de um script de rastreamento no website. Se não for instalado, a campanha será configurada automaticamente como Campanha de Tráfego.
+                        </p>
+                        <div class="error-msg" id="err-tipo">Selecione o tipo de campanha.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome">Nome comercial <span class="required">*</span></label>
+                        <input type="text" id="nome" name="fi-text-nome" placeholder="Ex: Empresa XPTO, Lda." required autocomplete="organization">
+                        <div class="error-msg" id="err-nome">Preencha o nome comercial.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">Website / Redes sociais <span class="required">*</span></label>
+                        <input type="text" id="website" name="fi-url-website" placeholder="www.exemplo.pt, facebook.com/empresa…" required autocomplete="url">
+                        <div class="error-msg" id="err-website">Preencha o link do website/redes.</div>
+                    </div>
+
+                    <div class="form-group" id="campo-email" style="display:none;">
+                        <label for="email">E-mail administrador/owner da página <span class="required">*</span></label>
+                        <input type="email" id="email" name="fi-email-admin" placeholder="admin@empresa.pt" required autocomplete="email">
+                        <div class="error-msg" id="err-email">Preencha o e-mail administrador.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contacto">Número de contacto <span class="optional">(opcional)</span></label>
+                        <input type="text" id="contacto" name="fi-phone-contacto" placeholder="912345678 ou +351 912 345 678" inputmode="tel" autocomplete="tel">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duracao">Duração da campanha <span class="required">*</span></label>
+                        <input type="text" id="duracao" name="fi-text-duracao" placeholder="Ex: Até 31 de outubro" required>
+                        <p class="field-note important">
+                            <strong>Nota:</strong> o prazo limite é <strong>31 de outubro</strong>; a campanha irá decorrer até essa data.
+                        </p>
+                        <div class="error-msg" id="err-duracao">Preencha a duração.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="segmentacao">Segmentação geográfica <span class="required">*</span></label>
+                        <input type="text" id="segmentacao" name="fi-text-segmentacao" placeholder="Ex: Portugal" required>
+                        <div class="error-msg" id="err-segmentacao">Preencha a segmentação.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="publico">Público-alvo <span class="required">*</span></label>
+                        <textarea id="publico" name="fi-text-publico" rows="3" placeholder="Ex: 25-45 anos, ambos os sexos, interessados em tecnologia" required></textarea>
+                        <div class="error-msg" id="err-publico">Preencha o público-alvo.</div>
+                    </div>
+                </fieldset>
+
+                <!-- ============================================= -->
+                <!-- SECÇÃO: CATEGORIAS                             -->
+                <!-- ============================================= -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Categorias / produtos em destaque</legend>
+
+                    <div id="categorias-container">
+                        <div class="form-group categoria-group" data-categoria="1">
+                            <label for="categoria1">Categoria 1 <span class="required">*</span></label>
+                            <textarea id="categoria1" name="fi-text-categoria1" rows="2" placeholder="Ex: Serviço de consultoria"></textarea>
+                            <div class="error-msg" id="err-categoria1">Preencha pelo menos uma categoria.</div>
+                        </div>
+                        <div class="form-group categoria-group" data-categoria="2" style="display:none;">
+                            <label for="categoria2">Categoria 2</label>
+                            <textarea id="categoria2" name="fi-text-categoria2" rows="2" placeholder="Ex: Formação empresarial"></textarea>
+                        </div>
+                        <div class="form-group categoria-group" data-categoria="3" style="display:none;">
+                            <label for="categoria3">Categoria 3</label>
+                            <textarea id="categoria3" name="fi-text-categoria3" rows="2" placeholder="Ex: Marketing digital"></textarea>
+                        </div>
+                        <div class="form-group categoria-group" data-categoria="4" style="display:none;">
+                            <label for="categoria4">Categoria 4</label>
+                            <textarea id="categoria4" name="fi-text-categoria4" rows="2" placeholder="Ex: Design gráfico"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ============================================= -->
+                <!-- SECÇÃO: NOTAS                                  -->
+                <!-- ============================================= -->
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Observações</legend>
+
+                    <div class="form-group">
+                        <label for="observacoes">Observações adicionais <span class="optional">(opcional)</span></label>
+                        <textarea id="observacoes" name="fi-text-observacoes" rows="3" placeholder="Informações adicionais relevantes..."></textarea>
+                    </div>
+
+                    <div class="image-notice" id="imageNotice" style="display:none;">
+                        <div class="notice-title">📎 Envio de imagens</div>
+                        <div class="notice-text">
+                            As imagens devem ser enviadas por e-mail em anexo.<br>
+                            Formatos permitidos: <strong>PNG, JPG</strong> · Máximo: <strong id="maxImagensTexto">5</strong> imagens · Máx. <strong>5 MB</strong> cada.
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- ============================================= -->
+                <!-- ACTIONS                                        -->
+                <!-- ============================================= -->
+                <div class="form-actions">
+                    <div class="actions-left">
+                        <button type="submit" class="btn btn-primary" id="sendBtn">Enviar por e-mail</button>
+                        <button type="button" class="btn btn-secondary" onclick="limparCampos()">Limpar campos</button>
+                        <span class="toast-message" id="toastMsg">Enviado!</span>
+                    </div>
+                    <div class="actions-right">
+                        <button type="button" class="btn btn-ghost" id="copyDataBtn" onclick="copiarDados()">
+                            📋 Copiar dados
+                        </button>
+                        <span class="copy-toast" id="copyToast">Copiado!</span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- MENSAGEM OBRIGATÓRIA -->
-            <div class="info-message">
-                <div class="info-message-title">📌 Mensagem obrigatória a partilhar com o beneficiario</div>
-                <div class="info-message-content">
-                    A campanha ficará live no prazo máximo de <strong>10 dias úteis</strong>, sendo que:
-                    <ul>
-                        <li><strong>Máximo 5 dias</strong> para a campanha ser construída</li>
-                        <li>Será enviado um email com o <strong>preview da campanha</strong> para revisão e aprovação</li>
-                        <li>Iremos aguardar <strong>5 dias úteis</strong> por uma resposta do beneficiário</li>
-                        <li>Com ou sem <em>inputs</em>, após os 5 dias úteis, a campanha irá <strong>live</strong></li>
-                    </ul>
-                    <p style="margin-top:8px; font-style:italic;">É importante esta mensagem ser passada ao beneficiário para saber o que esperar e estar atento ao email.</p>
-                </div>
-            </div>
+            </form>
+        </section>
 
-            <!-- BOTÃO COPIAR DISCRETO -->
-            <div class="copy-section">
-                <button type="button" class="copy-btn" id="copyDataBtn" onclick="copiarDados()">📋 Copiar dados</button>
-                <span class="copy-toast" id="copyToast">Copiado!</span>
-            </div>
+        <!-- ============================================================
+             FOOTER
+             ============================================================ -->
+        <footer class="page-footer">
+            <p>Páginas Amarelas · Welcomes</p>
+        </footer>
 
-            <div class="submit-row">
-                <button type="submit" class="btn-send" id="sendBtn">Enviar por E-mail</button>
-                <button type="button" class="btn-reset" onclick="limparCampos()">Limpar tudo</button>
-                <span class="toast-message" id="toastMsg">Enviado!</span>
-            </div>
-        </form>
     </div>
 
     <script src="https://forminit.com/sdk/v1/forminit.js"></script>
-    <script>
-        var FORM_ID = 'z93lk74gyum';
-        var forminit = new Forminit();
-
-        // ================================================================
-        // TEMPLATE INFO
-        // ================================================================
-        var TEMPLATE_INFO = {
-            'google': {
-                '500': { nome: 'Google 500€', anuncios: 5, categorias: 2, temEmail: false, maxImagens: 0, temTipo: false },
-                '1000': { nome: 'Google 1000€', anuncios: 8, categorias: 3, temEmail: false, maxImagens: 0, temTipo: false },
-                '1500': { nome: 'Google 1500€+', anuncios: 12, categorias: 4, temEmail: false, maxImagens: 0, temTipo: true }
-            },
-            'meta': {
-                '500': { nome: 'Meta 500€', anuncios: 5, categorias: 2, temEmail: true, maxImagens: 5, temTipo: false },
-                '1000': { nome: 'Meta 1000€', anuncios: 8, categorias: 3, temEmail: true, maxImagens: 8, temTipo: false },
-                '1500': { nome: 'Meta 1500€+', anuncios: 12, categorias: 4, temEmail: true, maxImagens: 12, temTipo: true }
-            }
-        };
-
-        var templateAtual = { plataforma: null, valor: null };
-
-        // ================================================================
-        // SELECIONAR TEMPLATE
-        // ================================================================
-        function selecionarTemplate(plataforma, valor) {
-            templateAtual.plataforma = plataforma;
-            templateAtual.valor = valor;
-
-            var cards = document.querySelectorAll('.template-card');
-            var map = {
-                'google-500': 0, 'google-1000': 1, 'google-1500': 2,
-                'meta-500': 3, 'meta-1000': 4, 'meta-1500': 5
-            };
-            var key = plataforma + '-' + valor;
-            var index = map[key] || 0;
-            cards.forEach(function(card, i) {
-                card.classList.toggle('active', i === index);
-            });
-
-            var info = TEMPLATE_INFO[plataforma][valor];
-            document.getElementById('formTitle').textContent = info.nome;
-            document.getElementById('formSub').textContent = 'Preencha os campos e clique em «Enviar por E-mail».';
-            document.getElementById('formBadge').textContent = info.anuncios + ' anúncios · ' + info.categorias + ' categorias';
-            document.getElementById('selectedTemplate').value = info.nome;
-            document.getElementById('selectedPlatform').value = plataforma;
-            document.getElementById('selectedBudget').value = valor;
-            document.getElementById('selectedAds').value = info.anuncios;
-            document.getElementById('selectedCategories').value = info.categorias;
-
-            var campoTipo = document.getElementById('campoTipo');
-            campoTipo.style.display = info.temTipo ? 'block' : 'none';
-
-            var campoEmail = document.getElementById('campo-email');
-            campoEmail.style.display = info.temEmail ? 'block' : 'none';
-
-            atualizarNotaLeads();
-
-            var imageNotice = document.getElementById('imageNotice');
-            if (info.maxImagens > 0) {
-                imageNotice.style.display = 'block';
-                document.getElementById('maxImagensTexto').textContent = info.maxImagens;
-            } else {
-                imageNotice.style.display = 'none';
-            }
-
-            var numCategorias = info.categorias;
-            var grupos = document.querySelectorAll('.categoria-group');
-            grupos.forEach(function(group) {
-                var catNum = parseInt(group.dataset.categoria);
-                group.style.display = catNum <= numCategorias ? 'block' : 'none';
-            });
-
-            for (var i = 2; i <= 4; i++) {
-                var catGroup = document.querySelector('.categoria-group[data-categoria="' + i + '"]');
-                if (catGroup) {
-                    var label = catGroup.querySelector('label');
-                    var textarea = catGroup.querySelector('textarea');
-                    var errMsg = catGroup.querySelector('.error-msg');
-                    if (label) {
-                        label.innerHTML = label.innerHTML.replace(' <span class="required">*</span>', '');
-                    }
-                    if (textarea) {
-                        textarea.removeAttribute('required');
-                    }
-                    if (errMsg) {
-                        errMsg.style.display = 'none';
-                    }
-                }
-            }
-
-            var cat1Group = document.querySelector('.categoria-group[data-categoria="1"]');
-            if (cat1Group) {
-                var label1 = cat1Group.querySelector('label');
-                var textarea1 = cat1Group.querySelector('textarea');
-                var errMsg1 = cat1Group.querySelector('.error-msg');
-                if (label1 && !label1.innerHTML.includes('class="required"')) {
-                    label1.innerHTML = label1.innerHTML.replace('(produto/serviço a destacar)', '<span class="required">*</span> (produto/serviço a destacar)');
-                }
-                if (textarea1) {
-                    textarea1.setAttribute('required', 'required');
-                }
-                if (errMsg1) {
-                    errMsg1.style.display = 'block';
-                }
-            }
-
-            document.getElementById('form-container').classList.add('show');
-            document.getElementById('form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            limparCampos();
-        }
-
-        function voltarSelecao() {
-            document.getElementById('form-container').classList.remove('show');
-            document.querySelectorAll('.template-card').forEach(function(c) { c.classList.remove('active'); });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // ================================================================
-        // COPIAR DADOS
-        // ================================================================
-        function copiarDados() {
-            var info = TEMPLATE_INFO[templateAtual.plataforma]?.[templateAtual.valor];
-            if (!info) {
-                alert('Selecione um template primeiro.');
-                return;
-            }
-
-            // Recolher valores
-            var dados = {
-                nif: document.getElementById('nif').value.trim(),
-                emailBeneficiario: document.getElementById('emailBeneficiario').value.trim(),
-                tipo: document.getElementById('tipo').value,
-                nome: document.getElementById('nome').value.trim(),
-                website: document.getElementById('website').value.trim(),
-                contacto: document.getElementById('contacto').value.trim(),
-                duracao: document.getElementById('duracao').value.trim(),
-                segmentacao: document.getElementById('segmentacao').value.trim(),
-                publico: document.getElementById('publico').value.trim(),
-                observacoes: document.getElementById('observacoes').value.trim(),
-                categorias: []
-            };
-
-            // Recolher categorias preenchidas
-            var grupos = document.querySelectorAll('.categoria-group');
-            grupos.forEach(function(group) {
-                if (group.style.display !== 'none') {
-                    var textarea = group.querySelector('textarea');
-                    if (textarea) {
-                        var value = textarea.value.trim();
-                        if (value) {
-                            dados.categorias.push(value);
-                        }
-                    }
-                }
-            });
-
-            // Validar campos obrigatórios para cópia
-            if (!dados.nif || !dados.emailBeneficiario || !dados.nome || !dados.website || !dados.duracao || !dados.segmentacao || !dados.publico || dados.categorias.length === 0) {
-                alert('Preencha todos os campos obrigatórios antes de copiar.');
-                return;
-            }
-
-            // Construir texto formatado
-            var linha = '────────────────────────────────────────────';
-            var texto = 'WELCOME ' + info.nome.toUpperCase() + '\n';
-            texto += '════════════════════════════════════════════\n\n';
-
-            texto += 'NIF                 : ' + dados.nif + '\n';
-            texto += 'Email beneficiário  : ' + dados.emailBeneficiario + '\n';
-
-            if (info.temTipo) {
-                texto += 'Tipo de campanha    : ' + dados.tipo + '\n';
-            }
-
-            texto += 'Nome comercial      : ' + dados.nome + '\n';
-            texto += 'Website/redes       : ' + dados.website + '\n';
-
-            if (dados.contacto) {
-                texto += 'Contacto            : ' + dados.contacto + '\n';
-            }
-
-            texto += linha + '\n';
-            texto += 'Duração             : ' + dados.duracao + '\n';
-            texto += 'Segmentação         : ' + dados.segmentacao + '\n';
-            texto += 'Público-alvo        : ' + dados.publico + '\n';
-
-            dados.categorias.forEach(function(cat, i) {
-                var label = 'Categoria ' + (i + 1);
-                var spaces = ' '.repeat(12 - label.length);
-                texto += label + spaces + ': ' + cat + '\n';
-            });
-
-            texto += linha + '\n';
-            texto += 'Anúncios            : ' + info.anuncios + '\n';
-            texto += 'Categorias          : ' + info.categorias + '\n';
-
-            if (dados.observacoes) {
-                texto += linha + '\n';
-                texto += 'OBSERVAÇÕES\n';
-                texto += dados.observacoes + '\n';
-            }
-
-            texto += '\n════════════════════════════════════════════';
-            texto += '\nCopiado via Welcomes · Páginas Amarelas';
-
-            // Copiar para clipboard
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(texto)
-                    .then(function() {
-                        mostrarFeedbackCopia(true);
-                    })
-                    .catch(function() {
-                        copiarFallback(texto);
-                    });
-            } else {
-                copiarFallback(texto);
-            }
-        }
-
-        function copiarFallback(texto) {
-            var textarea = document.createElement('textarea');
-            textarea.value = texto;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            textarea.style.left = '-9999px';
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                mostrarFeedbackCopia(true);
-            } catch (e) {
-                alert('Não foi possível copiar. Tente selecionar o texto manualmente.');
-            }
-            document.body.removeChild(textarea);
-        }
-
-        function mostrarFeedbackCopia(sucesso) {
-            var btn = document.getElementById('copyDataBtn');
-            var toast = document.getElementById('copyToast');
-
-            if (sucesso) {
-                btn.classList.add('copied');
-                btn.textContent = '✓ Copiado!';
-                toast.textContent = 'Copiado!';
-                toast.classList.add('show');
-                setTimeout(function() {
-                    btn.classList.remove('copied');
-                    btn.textContent = '📋 Copiar dados';
-                    toast.classList.remove('show');
-                }, 3000);
-            } else {
-                toast.textContent = 'Erro ao copiar';
-                toast.style.color = '#cc0000';
-                toast.classList.add('show');
-                setTimeout(function() {
-                    toast.classList.remove('show');
-                    toast.style.color = '#2e7d32';
-                }, 3000);
-            }
-        }
-
-        // ================================================================
-        // VALIDAR E SUBMETER
-        // ================================================================
-        async function validarESubmeter(event) {
-            if (event) {
-                event.preventDefault();
-            }
-            var plataforma = templateAtual.plataforma;
-            var valor = templateAtual.valor;
-
-            if (!plataforma || !valor) {
-                alert('Selecione um template primeiro.');
-                return;
-            }
-
-            var info = TEMPLATE_INFO[plataforma][valor];
-            var isValid = true;
-
-            var campos = ['nif', 'emailBeneficiario', 'nome', 'website', 'duracao', 'segmentacao', 'publico'];
-            if (info.temTipo) campos.push('tipo');
-            if (info.temEmail) campos.push('email');
-            campos.push('categoria1');
-
-            campos.forEach(function(campo) {
-                var input = document.getElementById(campo);
-                var errMsg = document.getElementById('err-' + campo);
-                if (input && errMsg) {
-                    var value = input.value.trim();
-                    if (!value) {
-                        input.classList.add('error');
-                        errMsg.classList.add('show');
-                        isValid = false;
-                    } else {
-                        input.classList.remove('error');
-                        errMsg.classList.remove('show');
-                    }
-                }
-            });
-
-            if (!isValid) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
-                var firstError = document.querySelector('.error');
-                if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                return;
-            }
-
-            var nif = document.getElementById('nif').value.trim();
-            document.getElementById('emailSubject').value = 'Welcome ' + info.nome + ' - NIF: ' + nif;
-
-            var btn = document.getElementById('sendBtn');
-            btn.textContent = 'A enviar...';
-            btn.disabled = true;
-
-            var toast = document.getElementById('toastMsg');
-            toast.textContent = 'A enviar...';
-            toast.classList.remove('error');
-            toast.classList.add('show');
-
-            var form = document.getElementById('mainForm');
-            try {
-                var result = await forminit.submit(FORM_ID, new FormData(form));
-                if (result.error) {
-                    throw result.error;
-                }
-
-                toast.textContent = 'Enviado com sucesso!';
-                toast.classList.remove('error');
-                toast.classList.add('show');
-                limparCampos(true);
-            } catch (error) {
-                toast.textContent = (error && error.message) ? error.message : 'Não foi possível enviar. Tente novamente.';
-                toast.classList.add('error', 'show');
-            } finally {
-                btn.textContent = 'Enviar por E-mail';
-                btn.disabled = false;
-            }
-        }
-
-        function limparCampos(preservarToast) {
-            document.querySelectorAll('#mainForm input:not([type="hidden"]), #mainForm select, #mainForm textarea').forEach(function(input) {
-                input.value = '';
-                input.classList.remove('error');
-            });
-            document.querySelectorAll('.error-msg').forEach(function(err) {
-                err.classList.remove('show');
-            });
-            atualizarNotaLeads();
-            if (!preservarToast) {
-                document.getElementById('toastMsg').classList.remove('show', 'error');
-            }
-            var btn = document.getElementById('sendBtn');
-            btn.innerHTML = 'Enviar por E-mail';
-            btn.disabled = false;
-        }
-
-        function atualizarNotaLeads() {
-            var tipo = document.getElementById('tipo');
-            var notaLeads = document.getElementById('notaLeads');
-            if (tipo && notaLeads) {
-                notaLeads.style.display = tipo.value === 'Geração de Leads' ? 'block' : 'none';
-            }
-        }
-
-        // ================================================================
-        // NORMALIZAÇÃO AUTOMÁTICA DE WEBSITE (NOVO)
-        // ================================================================
-        function normalizarWebsite() {
-            var input = document.getElementById('website');
-            var val = input.value.trim();
-            if (val && !/^https?:\/\//i.test(val)) {
-                // Se parece um domínio (tem ponto e não tem espaços), adiciona https://
-                if (val.includes('.') && !val.includes(' ')) {
-                    input.value = 'https://' + val;
-                }
-            }
-        }
-
-        // ================================================================
-        // EVENT LISTENERS
-        // ================================================================
-        document.getElementById('tipo').addEventListener('change', atualizarNotaLeads);
-        document.getElementById('mainForm').addEventListener('submit', validarESubmeter);
-
-        // Normalizar website ao sair do campo
-        document.getElementById('website').addEventListener('blur', normalizarWebsite);
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
