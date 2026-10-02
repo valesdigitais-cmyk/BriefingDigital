@@ -46,11 +46,16 @@
             </div>
 
             <div id="templateSelector" class="template-selector">
+
+                <!-- ============================================= -->
+                <!-- GRUPO: GOOGLE ADS                              -->
+                <!-- ============================================= -->
                 <div class="template-group">
                     <div class="template-group-header">
                         <span class="template-group-icon">G</span>
                         <h3 class="template-group-title">Google Ads</h3>
                     </div>
+
                     <div class="template-group-grid">
                         <div class="template-card" data-platform="google" data-budget="500" onclick="selecionarTemplate('google', '500')">
                             <div class="check-mark">✓</div>
@@ -70,11 +75,15 @@
                     </div>
                 </div>
 
+                <!-- ============================================= -->
+                <!-- GRUPO: META ADS                                -->
+                <!-- ============================================= -->
                 <div class="template-group">
                     <div class="template-group-header">
                         <span class="template-group-icon">M</span>
                         <h3 class="template-group-title">Meta Ads</h3>
                     </div>
+
                     <div class="template-group-grid">
                         <div class="template-card" data-platform="meta" data-budget="500" onclick="selecionarTemplate('meta', '500')">
                             <div class="check-mark">✓</div>
@@ -93,6 +102,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -178,7 +188,14 @@
 
                     <div class="form-group">
                         <label for="website">Website / Redes sociais <span class="required">*</span></label>
-                        <input type="text" id="website" name="fi-url-website" placeholder="www.exemplo.pt, facebook.com/empresa…" required autocomplete="url">
+                        <input
+                            type="text"
+                            id="website"
+                            name="fi-url-website"
+                            placeholder="https://www.exemplo.pt ou facebook.com/empresa"
+                            required
+                            autocomplete="url">
+                        <p class="field-note">Se escreveres apenas o domínio, adicionamos automaticamente o <strong>https://</strong>.</p>
                         <div class="error-msg" id="err-website">Preencha o link do website/redes.</div>
                     </div>
 
@@ -190,7 +207,15 @@
 
                     <div class="form-group">
                         <label for="contacto">Número de contacto <span class="optional">(opcional)</span></label>
-                        <input type="text" id="contacto" name="fi-phone-contacto" placeholder="912345678 ou +351 912 345 678" inputmode="tel" autocomplete="tel">
+                        <input
+                            type="tel"
+                            id="contacto"
+                            name="fi-phone-contacto"
+                            placeholder="+351 912 345 678"
+                            value="+351 "
+                            inputmode="tel"
+                            autocomplete="tel">
+                        <p class="field-note">Escreve apenas os 9 dígitos — o indicativo <strong>+351</strong> já está preenchido.</p>
                     </div>
 
                     <div class="form-group">
