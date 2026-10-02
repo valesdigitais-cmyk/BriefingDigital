@@ -674,9 +674,10 @@
                 <div class="error-msg" id="err-nome">Preencha o nome comercial.</div>
             </div>
 
+            <!-- CAMPO WEBSITE AGORA FLEXÍVEL -->
             <div class="form-group">
                 <label>Link do website/redes <span class="required">*</span></label>
-                <input type="url" id="website" name="fi-url-website" placeholder="https://" required>
+                <input type="text" id="website" name="fi-url-website" placeholder="www.exemplo.pt, facebook.com/empresa, etc." required>
                 <div class="error-msg" id="err-website">Preencha o link do website/redes.</div>
             </div>
 
@@ -686,10 +687,10 @@
                 <div class="error-msg" id="err-email">Preencha o e-mail administrador.</div>
             </div>
 
-            <!-- CAMPO CONTACTO SEM VALIDAÇÃO -->
+            <!-- CAMPO CONTACTO SEM VALIDAÇÃO (melhorado) -->
             <div class="form-group">
                 <label>Número de contacto <span class="optional">(opcional)</span></label>
-                <input type="text" id="contacto" name="fi-phone-contacto" placeholder="Ex: 912345678">
+                <input type="text" id="contacto" name="fi-phone-contacto" placeholder="912345678 ou +351 912 345 678" inputmode="tel">
             </div>
 
             <!-- DURAÇÃO COM NOTA VERMELHA -->
@@ -1144,8 +1145,28 @@
             }
         }
 
+        // ================================================================
+        // NORMALIZAÇÃO AUTOMÁTICA DE WEBSITE (NOVO)
+        // ================================================================
+        function normalizarWebsite() {
+            var input = document.getElementById('website');
+            var val = input.value.trim();
+            if (val && !/^https?:\/\//i.test(val)) {
+                // Se parece um domínio (tem ponto e não tem espaços), adiciona https://
+                if (val.includes('.') && !val.includes(' ')) {
+                    input.value = 'https://' + val;
+                }
+            }
+        }
+
+        // ================================================================
+        // EVENT LISTENERS
+        // ================================================================
         document.getElementById('tipo').addEventListener('change', atualizarNotaLeads);
         document.getElementById('mainForm').addEventListener('submit', validarESubmeter);
+
+        // Normalizar website ao sair do campo
+        document.getElementById('website').addEventListener('blur', normalizarWebsite);
     </script>
 
 </body>
