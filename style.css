@@ -34,7 +34,6 @@
     --bg-hover: #f0f0f0;
     --bg-active: #f0f0f0;
     --bg-error: #fff8f8;
-    --bg-info: #f0f7ff;
 
     --text-1: #1a1a1a;
     --text-2: #666666;
@@ -52,9 +51,6 @@
 
     --accent-success: #2e7d32;
     --accent-error: #cc0000;
-    --accent-info: #1a73e8;
-    --accent-info-text: #1a3a6a;
-    --accent-info-strong: #0d2b4a;
 
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -74,7 +70,6 @@ body.dark-mode {
     --bg-hover: #262626;
     --bg-active: #2a2a2a;
     --bg-error: #2a1a1a;
-    --bg-info: #14202e;
 
     --text-1: #f5f5f5;
     --text-2: #b8b8b8;
@@ -92,9 +87,6 @@ body.dark-mode {
 
     --accent-success: #4caf50;
     --accent-error: #ff6b6b;
-    --accent-info: #4a9eff;
-    --accent-info-text: #8ab8e8;
-    --accent-info-strong: #c8dcf0;
 
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
@@ -280,7 +272,7 @@ body {
 }
 
 /* ============================================================
-   TEMPLATE SELECTOR
+   TEMPLATE SELECTOR (grupos por plataforma)
    ============================================================ */
 .template-selector {
     display: flex;
@@ -314,12 +306,14 @@ body {
     border-radius: var(--radius-sm);
     font-size: 12px;
     font-weight: 700;
+    letter-spacing: -0.2px;
 }
 
 .template-group-title {
     font-size: 14px;
     font-weight: 700;
     color: var(--text-1);
+    letter-spacing: -0.1px;
 }
 
 .template-group-grid {
@@ -328,6 +322,7 @@ body {
     gap: var(--space-4);
 }
 
+/* ---- Cards ---- */
 .template-card {
     position: relative;
     padding: var(--space-5) var(--space-4);
@@ -386,18 +381,6 @@ body {
 
 .template-card.active .check-mark {
     display: flex;
-}
-
-@media (max-width: 640px) {
-    .template-group-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 420px) {
-    .template-group-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* ============================================================
@@ -517,10 +500,6 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-4) var(--space-5);
-}
-
-@media (max-width: 640px) {
-    .form-grid { grid-template-columns: 1fr; }
 }
 
 .form-group {
@@ -857,5 +836,21 @@ body {
     .btn-primary,
     .btn-secondary {
         width: 100%;
+    }
+
+    .template-group-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .template-group-grid {
+        grid-template-columns: 1fr;
     }
 }
